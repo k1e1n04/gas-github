@@ -1,0 +1,12 @@
+{
+  "name": "gas-github",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/k1e1n04/gas-github.git",
+  "author": "KenIshii <riguveda44@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@google/clasp": "^2.4.2",
+    "typescript": "^5.4.5"
+  }
+}

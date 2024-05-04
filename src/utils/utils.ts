@@ -1,5 +1,8 @@
 import { FetchResponse } from "@/types/responses/FetchResponse";
 
+/**
+ * Utility functions
+ */
 export const utils = {
   /**
    * Custom fetch function
@@ -16,5 +19,23 @@ export const utils = {
       status: res.getResponseCode(),
       body: res.getContentText(),
     };
+  },
+
+  /**
+   * Write data to a Google Spreadsheet
+   * @param sheet - Google Spreadsheet sheet
+   * @param dictArray - array of dictionaries to write to the sheet
+   * @returns - void
+   */
+  writeSpreadsheet(
+    sheet: GoogleAppsScript.Spreadsheet.Sheet,
+    dictArray: { [key: string]: string | number }[],
+  ): void {
+    const keys = Object.keys(dictArray[0]);
+    const range = sheet.getRange(1, 1, dictArray.length + 1, keys.length);
+    range.setValues([
+      keys,
+      ...dictArray.map((dict) => keys.map((key) => dict[key])),
+    ]);
   },
 };

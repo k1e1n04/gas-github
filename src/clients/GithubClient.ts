@@ -69,7 +69,10 @@ class GithubClient {
     options: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions,
     query?: {[key: string]: string | number},
   ): FetchResponse {
-    const url = `${this.baseUrl}/${this.owner}/${this.repo}/${path}?${this.generateQueryParams(query || {})}`;
+    let url = `${this.baseUrl}/${this.owner}/${this.repo}/${path}`;
+    if (query) {
+      url += `?${this.generateQueryParams(query)}`;
+    }
     return utils.customFetch(url, options);
   }
 
@@ -166,9 +169,9 @@ export class PullRequestClient extends GithubClient {
             per_page: per_page?.toString() || "30",
             page: page?.toString() || "1",
         };
-        const res = this.fetch(`${this.resource}/${pull_number}/commits?${queryParams.toString()}`, {
+        const res = this.fetch(`${this.resource}/${pull_number}/commits`, {
             headers: this.headers,
-        });
+        }, queryParams);
         if (res.status < 200 || res.status >= 300) {
             throw new Error(`Failed to fetch commits: ${res.status}`);
         }

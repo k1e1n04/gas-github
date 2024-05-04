@@ -80,5 +80,90 @@ describe('PullRequestClient', () => {
         });
     });
 
-    // Add similar describe and it blocks for the other methods
+    describe('get', () => {
+        it('should fetch a pull request by number and return the response as JSON', async () => {
+            const mockResponse = require('./data/PullRequestDetail.json');
+
+            spy.mockImplementation((url, options) => {
+                return {
+                    status: 200,
+                    body: JSON.stringify(mockResponse),
+                };
+            });
+
+            const result = client.get(1);
+
+            expect(spy).toHaveBeenCalled();
+            expect(spy.mock.calls[0][0]).toBe('https://api.github.com/repos/test-owner/test-repo/pulls/1');
+            expect(result).toEqual(mockResponse);
+        });
+
+        it('should throw an error if the fetch request fails', async () => {
+            spy.mockImplementation((url, options) => {
+                return {
+                    status: 500,
+                    body: 'Internal server error',
+                };
+            });
+
+            expect(() => {
+                client.get(1);
+            }).toThrow('Failed to fetch pull request: 500');
+        });
+    });
+
+    describe('listCommits', () => {
+        it('should fetch commits for a pull request and return the response as JSON', async () => {
+            const mockResponse = require('./data/ListCommits.json');
+
+            spy.mockImplementation((url, options) => {
+                return {
+                    status: 200,
+                    body: JSON.stringify(mockResponse),
+                };
+            });
+
+            const result = client.listCommits(1, 50, 2);
+
+            expect(spy).toHaveBeenCalled();
+            expect(spy.mock.calls[0][0]).toBe('https://api.github.com/repos/test-owner/test-repo/pulls/1/commits?per_page=50&page=2');
+            expect(result).toEqual(mockResponse);
+        });
+
+        it('should fetch commits for a pull request with default parameters', async () => {
+            const mockResponse = require('./data/ListCommits.json');
+
+            spy.mockImplementation((url, options) => {
+                return {
+                    status: 200,
+                    body: JSON.stringify(mockResponse),
+                };
+            });
+
+            const result = client.listCommits(1);
+
+            expect(spy).toHaveBeenCalled();
+            expect(spy.mock.calls[0][0]).toBe('https://api.github.com/repos/test-owner/test-repo/pulls/1/commits?per_page=30&page=1');
+            expect(result).toEqual(mockResponse);
+        });
+
+        it('should throw an error if the fetch request fails', async () => {
+            spy.mockImplementation((url, options) => {
+                return {
+                    status: 500,
+                    body: 'Internal server error',
+                };
+            });
+
+            expect(() => {
+                client.listCommits(1);
+            }).toThrow('Failed to fetch commits: 500');
+        });
+
+        it('should throw an error if per_page is not between 1 and 100', async () => {
+            expect(() => {
+                client.listCommits(1, 200);
+            }).toThrow('per_page must be between 1 and 100');
+        });
+    });
 });

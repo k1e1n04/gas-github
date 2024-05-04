@@ -1,8 +1,10 @@
-import { GithubClientProps } from "../types/props/GIthubClientProps";
-import { PullRequestResponse } from "../types/responses/pulls/PullRequestResponse";
-import { GithubApiHeaders } from "../types/requests/GithubApiHeaders";
-import { PullRequestDetailResponse } from "../types/responses/pulls/PullRequestDetailResponse";
-import {CommitResponse} from "../types/responses/commits/CommitResponse";
+import {GithubClientProps} from "@/types/props/GIthubClientProps";
+import {PullRequestResponse} from "@/types/responses/pulls/PullRequestResponse";
+import {GithubApiHeaders} from "@/types/requests/GithubApiHeaders";
+import {PullRequestDetailResponse} from "@/types/responses/pulls/PullRequestDetailResponse";
+import {CommitResponse} from "@/types/responses/commits/CommitResponse";
+import {FetchResponse} from "@/types/responses/FetchResponse";
+import {utils} from "@/utils/utils";
 
 /**
  * Base Class for the GitHub API clients
@@ -58,15 +60,35 @@ class GithubClient {
    *
    * @param path - path to fetch
    * @param options - fetch options
+   * @param query - query parameters
+   * @returns - response from the fetch request
+   * @protected
    */
   protected fetch(
     path: string,
     options: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions,
-  ) {
-    const url = `${this.baseUrl}/${this.owner}/${this.repo}/${path}`;
-    return UrlFetchApp.fetch(url, options);
+    query?: {[key: string]: string | number},
+  ): FetchResponse {
+    const url = `${this.baseUrl}/${this.owner}/${this.repo}/${path}?${this.generateQueryParams(query || {})}`;
+    return utils.customFetch(url, options);
+  }
+
+  /**
+   * Generate query parameters for the GitHub API
+   * @param params - query parameters
+   * @returns - query parameters as a string
+   * @protected
+   */
+  protected generateQueryParams(params: {[key: string]: string | number}): string {
+    return Object.keys(params)
+        .map((key) => {
+          const value = typeof params[key] === "number" ? params[key].toString() : params[key];
+          return `${key}=${value}`;
+        })
+        .join("&");
   }
 }
+
 
 /**
  * PullRequestClient
@@ -79,48 +101,33 @@ export class PullRequestClient extends GithubClient {
    * Resource name for the GitHub API
    * @private
    */
-  readonly resource: string = "pulls";
+  private readonly resource: string = "pulls";
   constructor(props: GithubClientProps) {
     super(props);
   }
-
   /**
    * Fetch list pull requests
    *
-   * @param state - state of the pull requests
-   * @param base - base branch
-   * @param sort - sort order
-   * @param direction - sort direction
-   * @param per_page - number of items per page
-   * @param page - page number
+   * @param params - pull request list params
    * @returns - pull requests
    */
-  list(
-    state?: "open" | "closed" | "all",
-    base?: string,
-    sort?: "created" | "updated" | "popularity" | "long-running",
-    direction?: "asc" | "desc",
-    per_page?: number,
-    page?: number,
-  ): PullRequestResponse[] {
-    if (per_page && (per_page < 1 || per_page > 100)) {
-      throw new Error("per_page must be between 1 and 100");
-    }
-    const queryParams = new URLSearchParams({
-      state: state || "open",
-      base: base || "master",
-      sort: sort || "created",
-      direction: direction || "asc",
-      per_page: per_page?.toString() || "30",
-      page: page?.toString() || "1",
-    });
-    const res = this.fetch(`${this.resource}?${queryParams.toString()}`, {
+  list(params?: PullRequestListParams): PullRequestResponse[] {
+    params = params || {};
+    const queryParams = {
+      state: params.state || "open",
+      base: params.base || "master",
+      sort: params.sort || "created",
+      direction: params.direction || "asc",
+      per_page: params.per_page?.toString() || "30",
+      page: params.page?.toString() || "1",
+    };
+    const res = this.fetch(`${this.resource}`, {
       headers: this.headers,
-    });
-    if (res.getResponseCode() < 200 || res.getResponseCode() >= 300) {
-      throw new Error(`Failed to fetch pull requests: ${res.getContentText()}`);
+    }, queryParams);
+    if (res.status < 200 || res.status >= 300) {
+      throw new Error(`Failed to fetch pull requests: ${res.status}`);
     }
-    return JSON.parse(res.getContentText());
+    return JSON.parse(res.body);
   }
 
   /**
@@ -133,10 +140,10 @@ export class PullRequestClient extends GithubClient {
     const res = this.fetch(`${this.resource}/${pull_number}`, {
       headers: this.headers,
     });
-    if (res.getResponseCode() < 200 || res.getResponseCode() >= 300) {
-      throw new Error(`Failed to fetch pull request: ${res.getContentText()}`);
+    if (res.status < 200 || res.status >= 300) {
+      throw new Error(`Failed to fetch pull request: ${res.status}`);
     }
-    return JSON.parse(res.getContentText());
+    return JSON.parse(res.body);
   }
 
   /**
@@ -155,17 +162,17 @@ export class PullRequestClient extends GithubClient {
         if (per_page && (per_page < 1 || per_page > 100)) {
             throw new Error("per_page must be between 1 and 100");
         }
-        const queryParams = new URLSearchParams({
+        const queryParams = {
             per_page: per_page?.toString() || "30",
             page: page?.toString() || "1",
-        });
+        };
         const res = this.fetch(`${this.resource}/${pull_number}/commits?${queryParams.toString()}`, {
             headers: this.headers,
         });
-        if (res.getResponseCode() < 200 || res.getResponseCode() >= 300) {
-            throw new Error(`Failed to fetch commits: ${res.getContentText()}`);
+        if (res.status < 200 || res.status >= 300) {
+            throw new Error(`Failed to fetch commits: ${res.status}`);
         }
-        return JSON.parse(res.getContentText());
+        return JSON.parse(res.body);
     }
 }
 

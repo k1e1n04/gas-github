@@ -5,6 +5,7 @@ import { Milestone } from "../Milestone";
 import { State } from "../State";
 import { User } from "../User";
 import { Team } from "../Team";
+import {Links} from "@/types/responses/Links";
 
 /**
  * Pull request response type
@@ -42,6 +43,7 @@ export type PullRequestResponse = {
   readonly requested_teams: Team[];
   readonly head: Head;
   readonly base: Base;
+  readonly _links: Links;
   readonly author_association: string;
   readonly auto_merge: string;
   readonly draft: boolean;

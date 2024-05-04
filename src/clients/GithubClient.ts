@@ -1,10 +1,10 @@
-import {GithubClientProps} from "@/types/props/GIthubClientProps";
-import {PullRequestResponse} from "@/types/responses/pulls/PullRequestResponse";
-import {GithubApiHeaders} from "@/types/requests/GithubApiHeaders";
-import {PullRequestDetailResponse} from "@/types/responses/pulls/PullRequestDetailResponse";
-import {CommitResponse} from "@/types/responses/commits/CommitResponse";
-import {FetchResponse} from "@/types/responses/FetchResponse";
-import {utils} from "@/utils/utils";
+import { GithubClientProps } from "@/types/props/GIthubClientProps";
+import { PullRequestResponse } from "@/types/responses/pulls/PullRequestResponse";
+import { GithubApiHeaders } from "@/types/requests/GithubApiHeaders";
+import { PullRequestDetailResponse } from "@/types/responses/pulls/PullRequestDetailResponse";
+import { CommitResponse } from "@/types/responses/commits/CommitResponse";
+import { FetchResponse } from "@/types/responses/FetchResponse";
+import { utils } from "@/utils/utils";
 
 /**
  * Base Class for the GitHub API clients
@@ -67,7 +67,7 @@ class GithubClient {
   protected fetch(
     path: string,
     options: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions,
-    query?: {[key: string]: string | number},
+    query?: { [key: string]: string | number },
   ): FetchResponse {
     let url = `${this.baseUrl}/${this.owner}/${this.repo}/${path}`;
     if (query) {
@@ -82,16 +82,20 @@ class GithubClient {
    * @returns - query parameters as a string
    * @protected
    */
-  protected generateQueryParams(params: {[key: string]: string | number}): string {
+  protected generateQueryParams(params: {
+    [key: string]: string | number;
+  }): string {
     return Object.keys(params)
-        .map((key) => {
-          const value = typeof params[key] === "number" ? params[key].toString() : params[key];
-          return `${key}=${value}`;
-        })
-        .join("&");
+      .map((key) => {
+        const value =
+          typeof params[key] === "number"
+            ? params[key].toString()
+            : params[key];
+        return `${key}=${value}`;
+      })
+      .join("&");
   }
 }
-
 
 /**
  * PullRequestClient
@@ -124,9 +128,13 @@ export class PullRequestClient extends GithubClient {
       per_page: params.per_page?.toString() || "30",
       page: params.page?.toString() || "1",
     };
-    const res = this.fetch(`${this.resource}`, {
-      headers: this.headers,
-    }, queryParams);
+    const res = this.fetch(
+      `${this.resource}`,
+      {
+        headers: this.headers,
+      },
+      queryParams,
+    );
     if (res.status < 200 || res.status >= 300) {
       throw new Error(`Failed to fetch pull requests: ${res.status}`);
     }
@@ -157,26 +165,30 @@ export class PullRequestClient extends GithubClient {
    * @param page - page number
    * @returns - commits
    */
-    listCommits(
-        pull_number: number,
-        per_page?: number,
-        page?: number,
-    ): CommitResponse[] {
-        if (per_page && (per_page < 1 || per_page > 100)) {
-            throw new Error("per_page must be between 1 and 100");
-        }
-        const queryParams = {
-            per_page: per_page?.toString() || "30",
-            page: page?.toString() || "1",
-        };
-        const res = this.fetch(`${this.resource}/${pull_number}/commits`, {
-            headers: this.headers,
-        }, queryParams);
-        if (res.status < 200 || res.status >= 300) {
-            throw new Error(`Failed to fetch commits: ${res.status}`);
-        }
-        return JSON.parse(res.body);
+  listCommits(
+    pull_number: number,
+    per_page?: number,
+    page?: number,
+  ): CommitResponse[] {
+    if (per_page && (per_page < 1 || per_page > 100)) {
+      throw new Error("per_page must be between 1 and 100");
     }
+    const queryParams = {
+      per_page: per_page?.toString() || "30",
+      page: page?.toString() || "1",
+    };
+    const res = this.fetch(
+      `${this.resource}/${pull_number}/commits`,
+      {
+        headers: this.headers,
+      },
+      queryParams,
+    );
+    if (res.status < 200 || res.status >= 300) {
+      throw new Error(`Failed to fetch commits: ${res.status}`);
+    }
+    return JSON.parse(res.body);
+  }
 }
 
 /**

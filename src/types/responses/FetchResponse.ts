@@ -2,6 +2,6 @@
  * FetchResponse type.
  */
 export type FetchResponse = {
-    body: string;
-    status: number;
-}
+  body: string;
+  status: number;
+};

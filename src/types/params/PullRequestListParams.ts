@@ -2,10 +2,28 @@
  * Fetch pull requests list params
  */
 type PullRequestListParams = {
-    state?: "open" | "closed" | "all",
-    base?: string,
-    sort?: "created" | "updated" | "popularity" | "long-running",
-    direction?: "asc" | "desc",
-    per_page?: number,
-    page?: number,
+  /**
+   * Pull request state
+   */
+  state?: "open" | "closed" | "all";
+  /**
+   * Base branch name
+   */
+  base?: string;
+  /**
+   * Sort field
+   */
+  sort?: "created" | "updated" | "popularity" | "long-running";
+  /**
+   * Sort direction
+   */
+  direction?: "asc" | "desc";
+  /**
+   * Number of items per page
+   */
+  per_page?: number;
+  /**
+   * Page number
+   */
+  page?: number;
 };

@@ -12,6 +12,12 @@ export type Milestone = {
   readonly title: string;
   readonly description: string;
   readonly creator: Creator;
+  readonly open_issues: number;
+  readonly closed_issues: number;
+  readonly created_at: string;
+  readonly updated_at: string;
+  readonly closed_at: string;
+  readonly due_on: string;
 };
 
 /**

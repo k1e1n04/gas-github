@@ -1,10 +1,10 @@
-import {Base} from "../Base";
-import {Head} from "../Head";
-import {Label} from "../Label";
-import {Milestone} from "../Milestone";
-import {State} from "../State";
-import {User} from "../User";
-import {Team} from "../Team";
+import { Base } from "../Base";
+import { Head } from "../Head";
+import { Label } from "../Label";
+import { Milestone } from "../Milestone";
+import { State } from "../State";
+import { User } from "../User";
+import { Team } from "../Team";
 
 /**
  * Pull request response type

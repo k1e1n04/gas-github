@@ -1,6 +1,7 @@
 import { GithubClientProps } from "../types/props/GIthubClientProps";
 import { PullRequest } from "../types/responses/pulls/PullRequest";
-import {GithubApiHeaders} from "../types/requests/GithubApiHeaders";
+import { GithubApiHeaders } from "../types/requests/GithubApiHeaders";
+import { PullRequestDetail } from "../types/responses/pulls/PullRequestDetail";
 
 /**
  * Base Class for the GitHub API clients
@@ -94,29 +95,45 @@ export class PullRequestClient extends GithubClient {
    * @returns - pull requests
    */
   list(
-    state: "open" | "closed" | "all",
-    base: string,
-    sort: "created" | "updated" | "popularity" | "long-running",
-    direction: "asc" | "desc",
-    per_page: number,
-    page: number,
+    state?: "open" | "closed" | "all",
+    base?: string,
+    sort?: "created" | "updated" | "popularity" | "long-running",
+    direction?: "asc" | "desc",
+    per_page?: number,
+    page?: number,
   ): PullRequest[] {
-    if (per_page < 1 || per_page > 100) {
+    if (per_page && (per_page < 1 || per_page > 100)) {
       throw new Error("per_page must be between 1 and 100");
     }
     const queryParams = new URLSearchParams({
-      state,
-      base,
-      sort,
-      direction,
-      per_page: per_page.toString(),
-      page: page.toString(),
+      state: state || "open",
+      base: base || "master",
+      sort: sort || "created",
+      direction: direction || "asc",
+      per_page: per_page?.toString() || "30",
+      page: page?.toString() || "1",
     });
     const res = this.fetch(`${this.resource}?${queryParams.toString()}`, {
       headers: this.headers,
     });
     if (res.getResponseCode() < 200 || res.getResponseCode() >= 300) {
       throw new Error(`Failed to fetch pull requests: ${res.getContentText()}`);
+    }
+    return JSON.parse(res.getContentText());
+  }
+
+  /**
+   * Get a pull request
+   *
+   * @param pull_number - pull request number
+   * @returns - pull request
+   */
+  get(pull_number: number): PullRequestDetail {
+    const res = this.fetch(`${this.resource}/${pull_number}`, {
+      headers: this.headers,
+    });
+    if (res.getResponseCode() < 200 || res.getResponseCode() >= 300) {
+      throw new Error(`Failed to fetch pull request: ${res.getContentText()}`);
     }
     return JSON.parse(res.getContentText());
   }

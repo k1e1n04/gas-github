@@ -1,7 +1,8 @@
 import { GithubClientProps } from "../types/props/GIthubClientProps";
-import { PullRequest } from "../types/responses/pulls/PullRequest";
+import { PullRequestResponse } from "../types/responses/pulls/PullRequestResponse";
 import { GithubApiHeaders } from "../types/requests/GithubApiHeaders";
-import { PullRequestDetail } from "../types/responses/pulls/PullRequestDetail";
+import { PullRequestDetailResponse } from "../types/responses/pulls/PullRequestDetailResponse";
+import {CommitResponse} from "../types/responses/commits/CommitResponse";
 
 /**
  * Base Class for the GitHub API clients
@@ -101,7 +102,7 @@ export class PullRequestClient extends GithubClient {
     direction?: "asc" | "desc",
     per_page?: number,
     page?: number,
-  ): PullRequest[] {
+  ): PullRequestResponse[] {
     if (per_page && (per_page < 1 || per_page > 100)) {
       throw new Error("per_page must be between 1 and 100");
     }
@@ -128,7 +129,7 @@ export class PullRequestClient extends GithubClient {
    * @param pull_number - pull request number
    * @returns - pull request
    */
-  get(pull_number: number): PullRequestDetail {
+  get(pull_number: number): PullRequestDetailResponse {
     const res = this.fetch(`${this.resource}/${pull_number}`, {
       headers: this.headers,
     });
@@ -137,6 +138,35 @@ export class PullRequestClient extends GithubClient {
     }
     return JSON.parse(res.getContentText());
   }
+
+  /**
+   * List commits on a pull request
+   *
+   * @param pull_number - pull request number
+   * @param per_page - number of items per page
+   * @param page - page number
+   * @returns - commits
+   */
+    listCommits(
+        pull_number: number,
+        per_page?: number,
+        page?: number,
+    ): CommitResponse[] {
+        if (per_page && (per_page < 1 || per_page > 100)) {
+            throw new Error("per_page must be between 1 and 100");
+        }
+        const queryParams = new URLSearchParams({
+            per_page: per_page?.toString() || "30",
+            page: page?.toString() || "1",
+        });
+        const res = this.fetch(`${this.resource}/${pull_number}/commits?${queryParams.toString()}`, {
+            headers: this.headers,
+        });
+        if (res.getResponseCode() < 200 || res.getResponseCode() >= 300) {
+            throw new Error(`Failed to fetch commits: ${res.getContentText()}`);
+        }
+        return JSON.parse(res.getContentText());
+    }
 }
 
 /**

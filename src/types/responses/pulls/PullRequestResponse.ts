@@ -9,7 +9,7 @@ import { Team } from "../Team";
 /**
  * Pull request response type
  */
-export type PullRequest = {
+export type PullRequestResponse = {
   readonly url: string;
   readonly id: number;
   readonly node_id: string;

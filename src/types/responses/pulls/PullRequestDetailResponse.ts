@@ -1,10 +1,10 @@
-import { PullRequest } from "./PullRequest";
+import { PullRequestResponse } from "./PullRequestResponse";
 import { User } from "../User";
 
 /**
  * Pull request detail response type
  */
-export type PullRequestDetail = {
+export type PullRequestDetailResponse = {
   merged: boolean;
   mergeable: boolean;
   rebaseable: boolean;
@@ -17,4 +17,4 @@ export type PullRequestDetail = {
   additions: number;
   deletions: number;
   changed_files: number;
-} & PullRequest;
+} & PullRequestResponse;

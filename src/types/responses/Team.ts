@@ -8,7 +8,7 @@ export type Team = {
   readonly html_url: string;
   readonly name: string;
   readonly slug: string;
-  readonly description: string;
+  readonly description?: string;
   readonly privacy: string;
   readonly permission: string;
   readonly notification_setting: string;

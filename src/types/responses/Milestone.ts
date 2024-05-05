@@ -28,7 +28,7 @@ type Creator = {
   readonly id: number;
   readonly node_id: string;
   readonly avatar_url: string;
-  readonly gravatar_id: string;
+  readonly gravatar_id?: string;
   readonly url: string;
   readonly html_url: string;
   readonly followers_url: string;

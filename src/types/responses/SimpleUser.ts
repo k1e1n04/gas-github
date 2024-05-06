@@ -2,7 +2,7 @@
  * SimpleUser type.
  */
 export type SimpleUser = {
-  readonly name?: string;
-  readonly email?: string;
+  readonly name?: string | null;
+  readonly email?: string | null;
   readonly date: string;
 };

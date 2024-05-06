@@ -20,8 +20,8 @@ export type PullRequestSummaryParam = {
   readonly draft?: boolean;
   readonly created_at: string;
   readonly updated_at: string;
-  readonly closed_at?: string;
-  readonly merged_at?: string;
+  readonly closed_at?: string | null;
+  readonly merged_at?: string | null;
   readonly timeToFirstReview?: number;
   readonly timeToClose?: number;
 };

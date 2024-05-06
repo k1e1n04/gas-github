@@ -1,6 +1,6 @@
 import { PullRequestSummaryHistory } from "@/models/pulls/PullRequestSummaryHistory";
 import { generateMockPullRequestSummary } from "@/models/mocks/MockPullRequestSummary";
-import {PullRequestSummary} from "@/models/pulls/PullRequestSummary";
+import { PullRequestSummary } from "@/models/pulls/PullRequestSummary";
 
 describe("PullRequestSummaryHistory", () => {
   describe("new", () => {
@@ -25,19 +25,23 @@ describe("PullRequestSummaryHistory", () => {
     });
   });
 
-  it('should create a new PullRequestSummaryHistory with lastPrSummaryHistory', () => {
+  it("should create a new PullRequestSummaryHistory with lastPrSummaryHistory", () => {
     const lastMockSummaries = [
-        generateMockPullRequestSummary({
-            pull_number: 1,
-            updated_at: "2022-01-03",
-        })
+      generateMockPullRequestSummary({
+        pull_number: 1,
+        updated_at: "2022-01-03",
+      }),
     ];
 
     const mockSummaries: PullRequestSummary[] = [];
 
-    const lastPrSummaryHistory = PullRequestSummaryHistory.new(lastMockSummaries);
+    const lastPrSummaryHistory =
+      PullRequestSummaryHistory.new(lastMockSummaries);
 
-    const result = PullRequestSummaryHistory.new(mockSummaries, lastPrSummaryHistory);
+    const result = PullRequestSummaryHistory.new(
+      mockSummaries,
+      lastPrSummaryHistory,
+    );
 
     expect(result.prCount).toEqual(mockSummaries.length);
     expect(result.lastPrUpdatedAt).toEqual(lastMockSummaries[0].updated_at);

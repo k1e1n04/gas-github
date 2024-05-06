@@ -1,10 +1,10 @@
 import { PullRequestClient } from "@/clients/GithubClient";
 import { GithubClientProps } from "@/types/props/GIthubClientProps";
 import { apiUtil } from "@/utils/apiUtil";
-import mockPullRequestList from "../data/PullRequestList.json";
-import mockPullRequestDetail from "../data/PullRequestDetail.json";
-import mockListCommits from "../data/ListCommits.json";
-import mockReview from "../data/ReviewList.json";
+import mockPullRequestList from "@/clients/data/PullRequestList.json";
+import mockPullRequestDetail from "@/clients/data/PullRequestDetail.json";
+import mockListCommits from "@/clients/data/ListCommits.json";
+import mockReview from "@/clients/data/ReviewList.json";
 
 describe("PullRequestClient", () => {
   let client: PullRequestClient;

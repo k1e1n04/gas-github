@@ -85,12 +85,12 @@ export class PullRequestSummary extends ValueObject {
   /**
    * Closed at
    */
-  readonly closed_at?: string;
+  readonly closed_at?: string | null;
 
   /**
    * Merged at
    */
-  readonly merged_at?: string;
+  readonly merged_at?: string | null;
 
   /**
    * First reviewed at
@@ -114,8 +114,8 @@ export class PullRequestSummary extends ValueObject {
    */
   private static getTimeToClose(
     created_at: string,
-    merged_at: string | undefined,
-    closed_at: string | undefined,
+    merged_at: string | undefined | null,
+    closed_at: string | undefined | null,
   ): number | undefined {
     if (merged_at) {
       return datetimeUtil.diffHour(created_at, merged_at);

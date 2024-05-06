@@ -8,11 +8,11 @@ export type Team = {
   readonly html_url: string;
   readonly name: string;
   readonly slug: string;
-  readonly description?: string;
+  readonly description?: string | null;
   readonly privacy: string;
   readonly permission: string;
   readonly notification_setting: string;
   readonly members_url: string;
   readonly repositories_url: string;
-  readonly parent: string | null;
+  readonly parent?: string | null;
 };

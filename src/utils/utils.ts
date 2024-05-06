@@ -23,21 +23,37 @@ export const utils = {
   },
 
   /**
-   * Write data to a Google Spreadsheet
+   * Append data to a Google Spreadsheet
    * @param sheet - Google Spreadsheet sheet
-   * @param dictArray - array of dictionaries to write to the sheet
+   * @param records - data to append
    * @returns - void
    */
-  writeSpreadsheet(
+  appendDataToSpreadsheet(
     sheet: GoogleAppsScript.Spreadsheet.Sheet,
-    dictArray: { [key: string]: string | number }[],
+    records: Record<string, unknown>[],
   ): void {
-    const keys = Object.keys(dictArray[0]);
-    const range = sheet.getRange(1, 1, dictArray.length + 1, keys.length);
-    range.setValues([
-      keys,
-      ...dictArray.map((dict) => keys.map((key) => dict[key])),
-    ]);
+    if (records.length === 0) {
+      return;
+    }
+    const keys = Object.keys(records[0]);
+    const lastRow = sheet.getLastRow();
+    const rangeForNewData = sheet.getRange(
+      lastRow + 1,
+      1,
+        records.length,
+      keys.length,
+    );
+
+    // If the sheet is empty, set the header row
+    if (lastRow === 0) {
+      const rangeForHeader = sheet.getRange(1, 1, 1, keys.length);
+      rangeForHeader.setValues([keys]);
+    }
+
+    // Append new data
+    rangeForNewData.setValues(
+      records.map((record) => keys.map((key) => record[key])),
+    );
   },
 
   /**

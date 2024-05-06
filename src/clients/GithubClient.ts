@@ -5,6 +5,7 @@ import { PullRequestDetailResponse } from "@/types/responses/pulls/PullRequestDe
 import { CommitResponse } from "@/types/responses/commits/CommitResponse";
 import { FetchResponse } from "@/types/responses/FetchResponse";
 import { utils } from "@/utils/utils";
+import { ReviewResponse } from "@/types/responses/reviews/ReviewResponse";
 
 /**
  * Base Class for the GitHub API clients
@@ -185,6 +186,39 @@ export class PullRequestClient extends GithubClient {
     );
     if (res.status < 200 || res.status >= 300) {
       throw new Error(`Failed to fetch commits: ${res.status}`);
+    }
+    return JSON.parse(res.body);
+  }
+
+  /**
+   * List reviews on a pull request
+   *
+   * @param pull_number - pull request number
+   * @param per_page - number of items per page
+   * @param page - page number
+   * @returns - reviews
+   */
+  listReviews(
+    pull_number: number,
+    per_page?: number,
+    page?: number,
+  ): ReviewResponse[] {
+    if (per_page && (per_page < 1 || per_page > 100)) {
+      throw new Error("per_page must be between 1 and 100");
+    }
+    const queryParams = {
+      per_page: per_page?.toString() || "30",
+      page: page?.toString() || "1",
+    };
+    const res = this.fetch(
+      `${this.resource}/${pull_number}/reviews`,
+      {
+        headers: this.headers,
+      },
+      queryParams,
+    );
+    if (res.status < 200 || res.status >= 300) {
+      throw new Error(`Failed to fetch reviews: ${res.status}`);
     }
     return JSON.parse(res.body);
   }

@@ -1,6 +1,7 @@
 import { PullRequestSummaryIngredients } from "@/types/params/PullRequestSummaryIngredients";
 import { datetimeUtil } from "@/utils/datetimeUtil";
 import { ValueObject } from "@/models/ValueObject";
+import { PullRequestSummaryParam } from "@/types/params/PullRequestSummaryParam";
 
 /**
  * Pull request summary
@@ -99,68 +100,152 @@ export class PullRequestSummary extends ValueObject {
   /**
    * Time taken to close the pull request
    */
-  readonly timeToClose: number;
+  readonly timeToClose?: number;
 
   /**
    * Time taken to first review
    */
-  readonly timeToFirstReview: number;
+  readonly timeToFirstReview?: number;
 
   /**
    * Time taken to close the pull request
    *
    * @returns - time taken to close the pull request
    */
-  private getTimeToClose(): number {
-    if (this.merged_at) {
-      return datetimeUtil.diffHour(this.created_at, this.merged_at);
+  private static getTimeToClose(
+    created_at: string,
+    merged_at: string | undefined,
+    closed_at: string | undefined,
+  ): number | undefined {
+    if (merged_at) {
+      return datetimeUtil.diffHour(created_at, merged_at);
+    } else if (closed_at) {
+      return datetimeUtil.diffHour(created_at, closed_at);
     } else {
-      return datetimeUtil.diffHour(this.created_at, this.closed_at);
+      return undefined;
     }
   }
 
   /**
    * Time taken to first review
    *
+   * @param firstReviewedAt - First reviewed at
+   * @param created_at - Created at
    * @returns - time taken to first review
    */
-  private getTimeToFirstReview(): number {
-    if (this.firstReviewedAt) {
-      return datetimeUtil.diffHour(this.created_at, this.firstReviewedAt);
+  private static getTimeToFirstReview(
+    firstReviewedAt: string | undefined,
+    created_at: string,
+  ): number | undefined {
+    if (firstReviewedAt) {
+      return datetimeUtil.diffHour(created_at, firstReviewedAt);
     } else {
-      return 0;
+      return undefined;
     }
   }
 
   /**
-   * @param ingredients
+   * @param param - PullRequestSummaryParam
    * @constructor
    */
-  constructor(ingredients: PullRequestSummaryIngredients) {
+  private constructor(param: PullRequestSummaryParam) {
     super();
-    this.pull_number = ingredients.pr.number;
-    this.repository = ingredients.repository;
-    this.title = ingredients.pr.title;
-    this.user = ingredients.pr.user.login;
-    this.status = ingredients.pr.state;
-    this.milestone = ingredients.pr.milestone?.title;
-    this.comments = ingredients.pr.comments;
-    this.review_comments = ingredients.pr.review_comments;
-    this.commits = ingredients.pr.commits;
-    this.additions = ingredients.pr.additions;
-    this.deletions = ingredients.pr.deletions;
-    this.change_files = ingredients.pr.changed_files;
-    this.draft = ingredients.pr.draft;
-    this.created_at = ingredients.pr.created_at;
-    this.updated_at = ingredients.pr.updated_at;
-    this.closed_at = ingredients.pr.closed_at;
-    this.merged_at = ingredients.pr.merged_at;
-    this.firstReviewedAt =
-      ingredients.reviews.length > 0
-        ? ingredients.reviews[0].submitted_at
-        : undefined;
-    this.timeToFirstReview = this.getTimeToFirstReview();
-    this.timeToClose = this.getTimeToClose();
+    this.pull_number = param.pull_number;
+    this.repository = param.repository;
+    this.title = param.title;
+    this.user = param.user;
+    this.status = param.status;
+    this.milestone = param.milestone;
+    this.comments = param.comments;
+    this.review_comments = param.review_comments;
+    this.commits = param.commits;
+    this.additions = param.additions;
+    this.deletions = param.deletions;
+    this.change_files = param.change_files;
+    this.draft = param.draft;
+    this.created_at = param.created_at;
+    this.updated_at = param.updated_at;
+    this.closed_at = param.closed_at;
+    this.merged_at = param.merged_at;
+    this.firstReviewedAt = param.firstReviewedAt;
+    this.timeToFirstReview = param.timeToFirstReview;
+    this.timeToClose = param.timeToClose;
     Object.freeze(this);
+  }
+
+  /**
+   * Create a new PullRequestSummary
+   * @param ingredients - PullRequestSummaryIngredients
+   * @returns PullRequestSummary
+   */
+  public static new(
+    ingredients: PullRequestSummaryIngredients,
+  ): PullRequestSummary {
+    return new PullRequestSummary({
+      pull_number: ingredients.pr.number,
+      repository: ingredients.repository,
+      title: ingredients.pr.title,
+      user: ingredients.pr.user.login,
+      status: ingredients.pr.state,
+      milestone: ingredients.pr.milestone?.title,
+      comments: ingredients.pr.comments,
+      review_comments: ingredients.pr.review_comments,
+      commits: ingredients.pr.commits,
+      additions: ingredients.pr.additions,
+      deletions: ingredients.pr.deletions,
+      change_files: ingredients.pr.changed_files,
+      draft: ingredients.pr.draft,
+      created_at: ingredients.pr.created_at,
+      updated_at: ingredients.pr.updated_at,
+      closed_at: ingredients.pr.closed_at,
+      merged_at: ingredients.pr.merged_at,
+      firstReviewedAt:
+        ingredients.reviews.length > 0
+          ? ingredients.reviews[0].submitted_at
+          : undefined,
+      timeToFirstReview: this.getTimeToFirstReview(
+        ingredients.reviews.length > 0
+          ? ingredients.reviews[0].submitted_at
+          : undefined,
+        ingredients.pr.created_at,
+      ),
+      timeToClose: this.getTimeToClose(
+        ingredients.pr.created_at,
+        ingredients.pr.merged_at,
+        ingredients.pr.closed_at,
+      ),
+    });
+  }
+
+  /**
+   * Restore the PullRequestSummary from the record
+   * @param record - Record
+   * @returns PullRequestSummary
+   */
+  public static from(record: Record<string, string>): PullRequestSummary {
+    return new PullRequestSummary({
+      pull_number: Number(record.pull_number),
+      repository: record.repository,
+      title: record.title,
+      user: record.user,
+      status: record.status,
+      milestone: record.milestone,
+      comments: Number(record.comments),
+      review_comments: Number(record.review_comments),
+      commits: Number(record.commits),
+      additions: Number(record.additions),
+      deletions: Number(record.deletions),
+      change_files: Number(record.change_files),
+      draft: record.draft === "true",
+      created_at: record.created_at,
+      updated_at: record.updated_at,
+      closed_at: record.closed_at,
+      merged_at: record.merged_at,
+      firstReviewedAt: record.firstReviewedAt,
+      timeToFirstReview: record.timeToFirstReview
+        ? Number(record.timeToFirstReview)
+        : undefined,
+      timeToClose: record.timeToClose ? Number(record.timeToClose) : undefined,
+    });
   }
 }

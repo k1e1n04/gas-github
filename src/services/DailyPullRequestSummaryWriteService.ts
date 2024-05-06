@@ -150,7 +150,7 @@ export class DailyPullRequestSummaryWriteService {
       });
       return prs.map((pr) => {
         const prDetail = client.get(pr.number);
-        return new PullRequestSummary({
+        return PullRequestSummary.new({
           reviews: client.listReviews(pr.number, 1, 1),
           pr: prDetail,
           repository: client.repo,

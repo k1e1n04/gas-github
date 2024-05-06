@@ -4,6 +4,7 @@ import { apiUtil } from "@/utils/apiUtil";
 import mockPullRequestList from "./data/PullRequestList.json";
 import mockPullRequestDetail from "./data/PullRequestDetail.json";
 import mockListCommits from "./data/ListCommits.json";
+import mockReview from "./data/ReviewList.json";
 
 describe("PullRequestClient", () => {
   let client: PullRequestClient;
@@ -166,6 +167,61 @@ describe("PullRequestClient", () => {
     it("should throw an error if per_page is not between 1 and 100", async () => {
       expect(() => {
         client.listCommits(1, 200);
+      }).toThrow("per_page must be between 1 and 100");
+    });
+  });
+
+  describe("listReviews", () => {
+    it("should fetch reviews for a pull request and return the response as JSON", async () => {
+      spy.mockImplementation(() => {
+        return {
+          status: 200,
+          body: JSON.stringify(mockReview),
+        };
+      });
+
+      const result = client.listReviews(1, 50, 2);
+
+      expect(spy).toHaveBeenCalled();
+      expect(spy.mock.calls[0][0]).toBe(
+        "https://api.github.com/repos/test-owner/test-repo/pulls/1/reviews?per_page=50&page=2",
+      );
+      expect(result).toEqual(mockReview);
+    });
+
+    it("should fetch reviews for a pull request with default parameters", async () => {
+      spy.mockImplementation(() => {
+        return {
+          status: 200,
+          body: JSON.stringify(mockReview),
+        };
+      });
+
+      const result = client.listReviews(1);
+
+      expect(spy).toHaveBeenCalled();
+      expect(spy.mock.calls[0][0]).toBe(
+        "https://api.github.com/repos/test-owner/test-repo/pulls/1/reviews?per_page=30&page=1",
+      );
+      expect(result).toEqual(mockReview);
+    });
+
+    it("should throw an error if the fetch request fails", async () => {
+      spy.mockImplementation(() => {
+        return {
+          status: 500,
+          body: "Internal server error",
+        };
+      });
+
+      expect(() => {
+        client.listReviews(1);
+      }).toThrow("Failed to fetch reviews: 500");
+    });
+
+    it("should throw an error if per_page is not between 1 and 100", async () => {
+      expect(() => {
+        client.listReviews(1, 200);
       }).toThrow("per_page must be between 1 and 100");
     });
   });

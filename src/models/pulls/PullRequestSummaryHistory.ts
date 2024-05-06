@@ -12,19 +12,49 @@ export class PullRequestSummaryHistory extends ValueObject {
 
   /**
    * Constructor
-   * @param prSummaries - Pull request summaries
-   * @param lastPrSummaryHistory - Last pull request summary history
+   * @param date - Date
+   * @param prCount - Pull request count
+   * @param lastPrUpdatedAt - Last pull request updated at
    */
-  constructor(
-    prSummaries: PullRequestSummary[],
-    lastPrSummaryHistory: PullRequestSummaryHistory,
-  ) {
+  private constructor(date: string, prCount: number, lastPrUpdatedAt: string) {
     super();
-    this.date = utils.now();
-    this.prCount = prSummaries.length;
-    this.lastPrUpdatedAt =
-      this.getLastPrUpdatedAt(prSummaries) ||
-      lastPrSummaryHistory.lastPrUpdatedAt;
+    this.date = date;
+    this.prCount = prCount;
+    this.lastPrUpdatedAt = lastPrUpdatedAt;
+  }
+
+  /**
+   * Create a new PullRequestSummaryHistory
+   * @param filteredPrSummaries - Filtered pull request summaries
+   * @param lastPrSummaryHistory - Last pull request summary history
+   * @returns PullRequestSummaryHistory
+   */
+  public static new(
+    filteredPrSummaries: PullRequestSummary[],
+    lastPrSummaryHistory?: PullRequestSummaryHistory,
+  ): PullRequestSummaryHistory {
+    return new PullRequestSummaryHistory(
+      utils.now(),
+        filteredPrSummaries.length,
+      this.getLastPrUpdatedAt(filteredPrSummaries) ||
+        lastPrSummaryHistory?.lastPrUpdatedAt ||
+        utils.now(),
+    );
+  }
+
+  /**
+   * Restore the PullRequestSummaryHistory from the record
+   * @param record - Record
+   * @returns PullRequestSummaryHistory
+   */
+  public static from(
+    record: Record<string, string>,
+  ): PullRequestSummaryHistory {
+    return new PullRequestSummaryHistory(
+      record.date,
+      Number(record.prCount),
+      record.lastPrUpdatedAt,
+    );
   }
 
   /**
@@ -33,7 +63,7 @@ export class PullRequestSummaryHistory extends ValueObject {
    * @returns Last pull request updated at
    * @private
    */
-  private getLastPrUpdatedAt(
+  private static getLastPrUpdatedAt(
     prSummaries: PullRequestSummary[],
   ): string | undefined {
     if (prSummaries.length === 0) {

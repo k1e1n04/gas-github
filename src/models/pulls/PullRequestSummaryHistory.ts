@@ -1,6 +1,6 @@
 import { ValueObject } from "@/models/ValueObject";
 import { PullRequestSummary } from "@/models/pulls/PullRequestSummary";
-import { utils } from "@/utils/utils";
+import { datetimeUtil } from "@/utils/datetimeUtil";
 
 /**
  * Pull request summary history
@@ -34,11 +34,11 @@ export class PullRequestSummaryHistory extends ValueObject {
     lastPrSummaryHistory?: PullRequestSummaryHistory,
   ): PullRequestSummaryHistory {
     return new PullRequestSummaryHistory(
-      utils.now(),
+      datetimeUtil.now(),
         filteredPrSummaries.length,
       this.getLastPrUpdatedAt(filteredPrSummaries) ||
         lastPrSummaryHistory?.lastPrUpdatedAt ||
-        utils.now(),
+        datetimeUtil.now(),
     );
   }
 

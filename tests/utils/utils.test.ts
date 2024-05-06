@@ -1,4 +1,4 @@
-import { utils } from "@/utils/utils";
+import { datetimeUtil } from "@/utils/datetimeUtil";
 
 global.UrlFetchApp = {
   fetch: jest.fn(),
@@ -26,7 +26,7 @@ describe("utils", () => {
         };
       });
 
-      const res = utils.customFetch(url, options);
+      const res = datetimeUtil.customFetch(url, options);
 
       expect(res).toEqual({
         status: 200,
@@ -51,7 +51,7 @@ describe("utils", () => {
         { name: "Jane", age: 25 },
       ];
 
-      utils.writeSpreadsheet(mockSheet, dictArray);
+      datetimeUtil.writeSpreadsheet(mockSheet, dictArray);
 
       expect(mockSheet.getRange).toHaveBeenCalledWith(
         1,

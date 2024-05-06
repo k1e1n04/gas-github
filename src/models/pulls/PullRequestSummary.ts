@@ -1,5 +1,5 @@
 import { PullRequestSummaryIngredients } from "@/types/params/PullRequestSummaryIngredients";
-import { utils } from "@/utils/utils";
+import { datetimeUtil } from "@/utils/datetimeUtil";
 import { ValueObject } from "@/models/ValueObject";
 
 /**
@@ -113,9 +113,9 @@ export class PullRequestSummary extends ValueObject {
    */
   private getTimeToClose(): number {
     if (this.merged_at) {
-      return utils.diffHour(this.created_at, this.merged_at);
+      return datetimeUtil.diffHour(this.created_at, this.merged_at);
     } else {
-      return utils.diffHour(this.created_at, this.closed_at);
+      return datetimeUtil.diffHour(this.created_at, this.closed_at);
     }
   }
 
@@ -126,7 +126,7 @@ export class PullRequestSummary extends ValueObject {
    */
   private getTimeToFirstReview(): number {
     if (this.firstReviewedAt) {
-      return utils.diffHour(this.created_at, this.firstReviewedAt);
+      return datetimeUtil.diffHour(this.created_at, this.firstReviewedAt);
     } else {
       return 0;
     }

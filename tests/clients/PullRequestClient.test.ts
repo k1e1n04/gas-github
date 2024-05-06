@@ -1,6 +1,6 @@
 import { PullRequestClient } from "@/clients/GithubClient";
 import { GithubClientProps } from "@/types/props/GIthubClientProps";
-import { utils } from "@/utils/utils";
+import {apiUtil} from "@/utils/apiUtil";
 
 describe("PullRequestClient", () => {
   let client: PullRequestClient;
@@ -14,7 +14,7 @@ describe("PullRequestClient", () => {
       repo: "test-repo",
     };
     client = new PullRequestClient(props);
-    spy = jest.spyOn(utils, "customFetch");
+    spy = jest.spyOn(apiUtil, "customFetch");
   });
 
   describe("list", () => {

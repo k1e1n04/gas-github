@@ -4,8 +4,8 @@ import { GithubApiHeaders } from "@/types/requests/GithubApiHeaders";
 import { PullRequestDetailResponse } from "@/types/responses/pulls/PullRequestDetailResponse";
 import { CommitResponse } from "@/types/responses/commits/CommitResponse";
 import { FetchResponse } from "@/types/responses/FetchResponse";
-import { utils } from "@/utils/utils";
 import { ReviewResponse } from "@/types/responses/reviews/ReviewResponse";
+import {apiUtil} from "@/utils/apiUtil";
 
 /**
  * Base Class for the GitHub API clients
@@ -73,7 +73,7 @@ class GithubClient {
     if (query) {
       url += `?${this.generateQueryParams(query)}`;
     }
-    return utils.customFetch(url, options);
+    return apiUtil.customFetch(url, options);
   }
 
   /**

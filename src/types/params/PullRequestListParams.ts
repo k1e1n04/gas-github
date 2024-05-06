@@ -1,7 +1,7 @@
 /**
  * Fetch pull requests list params
  */
-type PullRequestListParams = {
+export type PullRequestListParams = {
   /**
    * Pull request state
    */

@@ -1,4 +1,3 @@
-import { FetchResponse } from "@/types/responses/FetchResponse";
 import dayjs from "dayjs";
 
 /**

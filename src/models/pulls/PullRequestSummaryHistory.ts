@@ -35,7 +35,7 @@ export class PullRequestSummaryHistory extends ValueObject {
   ): PullRequestSummaryHistory {
     return new PullRequestSummaryHistory(
       datetimeUtil.now(),
-        filteredPrSummaries.length,
+      filteredPrSummaries.length,
       this.getLastPrUpdatedAt(filteredPrSummaries) ||
         lastPrSummaryHistory?.lastPrUpdatedAt ||
         datetimeUtil.now(),

@@ -30,14 +30,14 @@ export type PullRequestResponse = {
   readonly user: User;
   readonly body: string;
   readonly labels: Label[];
-  readonly milestone: Milestone;
+  readonly milestone?: Milestone;
   readonly active_lock_reason?: string;
   readonly created_at: string;
   readonly updated_at: string;
   readonly closed_at?: string;
   readonly merged_at?: string;
   readonly merge_commit_sha?: string;
-  readonly assignee: User;
+  readonly assignee?: User;
   readonly assignees?: User[];
   readonly requested_reviewers?: User[];
   readonly requested_teams?: Team[];

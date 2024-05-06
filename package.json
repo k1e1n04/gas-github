@@ -8,6 +8,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint",
+    "lint:fix": "eslint --fix",
     "fmt": "prettier --write .",
     "build": "node esbuild.js",
     "push": "clasp push",

@@ -1,5 +1,5 @@
 import { PullRequestSummary } from "@/models/pulls/PullRequestSummary";
-import {spreadSheetUtil} from "@/utils/spreadSheetUtil";
+import { spreadSheetUtil } from "@/utils/spreadSheetUtil";
 
 /**
  * This class is responsible for handling the data access of the PullRequestSummary entity.
@@ -12,7 +12,10 @@ export class PullRequestSummaryRepository {
    * @param summaries
    */
   store(summaries: PullRequestSummary[]): void {
-    spreadSheetUtil.appendDataToSpreadsheet(this.sheetName, this.toRecords(summaries));
+    spreadSheetUtil.appendDataToSpreadsheet(
+      this.sheetName,
+      this.toRecords(summaries),
+    );
   }
 
   /**
@@ -20,7 +23,9 @@ export class PullRequestSummaryRepository {
    * @param summaries
    * @returns
    */
-  private toRecords(summaries: PullRequestSummary[]) {
+  private toRecords(
+    summaries: PullRequestSummary[],
+  ): Record<string, unknown>[] {
     return summaries.map((summary) => {
       return summary.toRecord();
     });

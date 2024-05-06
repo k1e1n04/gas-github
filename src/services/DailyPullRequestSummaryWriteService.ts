@@ -1,7 +1,4 @@
-import {
-  GetDailyPullRequestsParam,
-  Repo,
-} from "@/types/params/GetDailyPullRequestsParam";
+import { Repo } from "@/types/params/GetDailyPullRequestsParam";
 import { PullRequestClient } from "@/clients/GithubClient";
 import { PullRequestSummary } from "@/models/pulls/PullRequestSummary";
 import { PullRequestSummaryHistoryRepository } from "@/repositories/PullRequestSummaryHistoryRepository";
@@ -11,7 +8,7 @@ import { PullRequestSummaryHistory } from "@/models/pulls/PullRequestSummaryHist
 /**
  * This class is responsible for writing the daily pull request summary.
  */
-export class DailyPullRequestSummaryWriter {
+export class DailyPullRequestSummaryWriteService {
   /**
    * Pull request clients
    * @private
@@ -54,46 +51,46 @@ export class DailyPullRequestSummaryWriter {
    */
   private readonly sortDirection = "desc";
 
-  constructor(param: GetDailyPullRequestsParam) {
-    this.prClients = param.repos.map((repo) => {
-      return new PullRequestClient({
-        token: param.githubToken,
-        owner: param.owner,
-        repo: repo.repo,
-      });
-    });
+  constructor(
+    prClients: PullRequestClient[],
+    pullRequestSummaryHistoryRepository: PullRequestSummaryHistoryRepository,
+    pullRequestSummaryRepository: PullRequestSummaryRepository,
+  ) {
+    this.prClients = prClients;
     this.pullRequestSummaryHistoryRepository =
-      new PullRequestSummaryHistoryRepository();
-    this.pullRequestSummaryRepository = new PullRequestSummaryRepository();
+      pullRequestSummaryHistoryRepository;
+    this.pullRequestSummaryRepository = pullRequestSummaryRepository;
   }
 
   /**
    * Write daily pull request summary
-   * @param param
+   * @param repos - Repositories
+   * @param estimatedDailyPullRequests - Estimated daily pull requests
    */
-  writeDailyPullRequests(param: GetDailyPullRequestsParam) {
+  writeDailyPullRequests(
+    repos: Repo[],
+    estimatedDailyPullRequests: number,
+  ): void {
     const lastPrSummaryHistory =
       this.pullRequestSummaryHistoryRepository.getLatest();
     const summaries = this.prClients
       .map((client) => {
         return this.fetchPullRequests(
           client,
-          param.repos,
-          param.estimatedDailyPullRequests,
+          repos,
+          estimatedDailyPullRequests,
         );
       })
       .flat();
     const filteredSummaries = this.filterPullRequestSummaries(
-        summaries,
-        lastPrSummaryHistory,
-        );
+      summaries,
+      lastPrSummaryHistory,
+    );
     const newPrSummaryHistory = PullRequestSummaryHistory.new(
       filteredSummaries,
       lastPrSummaryHistory,
     );
-    this.pullRequestSummaryRepository.store(
-      filteredSummaries
-    );
+    this.pullRequestSummaryRepository.store(filteredSummaries);
     this.pullRequestSummaryHistoryRepository.store(newPrSummaryHistory);
   }
 
@@ -107,7 +104,7 @@ export class DailyPullRequestSummaryWriter {
   private filterPullRequestSummaries(
     summaries: PullRequestSummary[],
     lastPrSummaryHistory?: PullRequestSummaryHistory,
-  ) {
+  ): PullRequestSummary[] {
     if (!lastPrSummaryHistory) {
       return summaries;
     }
@@ -122,7 +119,7 @@ export class DailyPullRequestSummaryWriter {
    * @returns Page number
    * @private
    */
-  private getPageNumber(estimatedDailyPullRequests: number) {
+  private getPageNumber(estimatedDailyPullRequests: number): number {
     return Math.ceil(estimatedDailyPullRequests / this.per_page);
   }
 
@@ -138,23 +135,24 @@ export class DailyPullRequestSummaryWriter {
     client: PullRequestClient,
     repos: Repo[],
     estimatedMonthlyPullRequests: number,
-  ) {
+  ): PullRequestSummary[] {
     const pageNumbers = this.getPageNumber(estimatedMonthlyPullRequests);
     const defaultBase = "master";
     return Array.from({ length: pageNumbers }, (_, i) => {
       const prs = client.list({
         state: this.state,
         base:
-          repos.find((repo) => repo.repo === client.repo)?.base || defaultBase,
+          repos.find((repo) => repo.name === client.repo)?.base || defaultBase,
         sort: this.sort,
         direction: this.sortDirection,
         per_page: this.per_page,
         page: i + 1,
       });
       return prs.map((pr) => {
+        const prDetail = client.get(pr.number);
         return new PullRequestSummary({
           reviews: client.listReviews(pr.number, 1, 1),
-          pr: client.get(pr.number),
+          pr: prDetail,
           repository: client.repo,
         });
       });

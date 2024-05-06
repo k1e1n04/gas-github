@@ -1,11 +1,7 @@
-import {
-  CommitClient,
-  IssueClient,
-  PullRequestClient,
-} from "./clients/GithubClient";
+import { PullRequestClient } from "./clients/GithubClient";
+import { fetchDailyPullRequestSummary } from "@/managers/fetchDailyPullRequestSummary";
 
-(global as any).GasGitHub = {
+(global as any).gasGitHub = {
   PullRequestClient,
-  IssueClient,
-  CommitClient,
+  fetchDailyPullRequestSummary,
 };

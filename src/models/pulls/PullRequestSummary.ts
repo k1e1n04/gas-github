@@ -34,7 +34,7 @@ export class PullRequestSummary extends ValueObject {
   /**
    * Milestone
    */
-  readonly milestone: string;
+  readonly milestone?: string;
 
   /**
    * Number of comments
@@ -143,7 +143,7 @@ export class PullRequestSummary extends ValueObject {
     this.title = ingredients.pr.title;
     this.user = ingredients.pr.user.login;
     this.status = ingredients.pr.state;
-    this.milestone = ingredients.pr.milestone.title;
+    this.milestone = ingredients.pr.milestone?.title;
     this.comments = ingredients.pr.comments;
     this.review_comments = ingredients.pr.review_comments;
     this.commits = ingredients.pr.commits;

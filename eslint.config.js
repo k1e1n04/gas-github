@@ -5,7 +5,15 @@ import pluginGas from "eslint-plugin-googleappsscript";
 export default [
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
-  { ignores: ["dist", ".eslintrc.cjs", "esbuild.js", "eslint.config.js"] },
+  {
+    ignores: [
+      "dist",
+      ".eslintrc.cjs",
+      "esbuild.js",
+      "eslint.config.js",
+      "jest.config.cjs",
+    ],
+  },
   {
     languageOptions: {
       globals: pluginGas.environments.googleappsscript.globals,

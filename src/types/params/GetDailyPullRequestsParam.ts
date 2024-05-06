@@ -1,9 +1,6 @@
-/**
- * Get daily pull requests param type.
- */
-export type GetDailyPullRequestsParam = {
+export interface GetDailyPullRequestsParam {
   /**
-   * GitHub API token
+   * GitHub token
    */
   githubToken: string;
   /**
@@ -18,18 +15,15 @@ export type GetDailyPullRequestsParam = {
    * Estimated daily pull requests
    */
   estimatedDailyPullRequests: number;
-};
+}
 
-/**
- * Repo type.
- */
-export type Repo = {
+export interface Repo {
   /**
    * GitHub repository name
    */
-  repo: string;
+  name: string;
   /**
    * Base branch name
    */
   base: string;
-};
+}

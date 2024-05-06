@@ -5,7 +5,8 @@ import { PullRequestDetailResponse } from "@/types/responses/pulls/PullRequestDe
 import { CommitResponse } from "@/types/responses/commits/CommitResponse";
 import { FetchResponse } from "@/types/responses/FetchResponse";
 import { ReviewResponse } from "@/types/responses/reviews/ReviewResponse";
-import {apiUtil} from "@/utils/apiUtil";
+import { apiUtil } from "@/utils/apiUtil";
+import { PullRequestListParams } from "@/types/params/PullRequestListParams";
 
 /**
  * Base Class for the GitHub API clients
@@ -115,8 +116,8 @@ export class PullRequestClient extends GithubClient {
   /**
    * Fetch list pull requests
    *
-   * @param params - pull request list params
-   * @returns - pull requests
+   * @param {PullRequestListParams} params - parameters for listing pull requests
+   * @returns - list of pull requests
    */
   list(params?: PullRequestListParams): PullRequestResponse[] {
     params = params || {};

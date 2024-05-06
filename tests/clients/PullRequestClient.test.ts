@@ -1,6 +1,9 @@
 import { PullRequestClient } from "@/clients/GithubClient";
 import { GithubClientProps } from "@/types/props/GIthubClientProps";
-import {apiUtil} from "@/utils/apiUtil";
+import { apiUtil } from "@/utils/apiUtil";
+import mockPullRequestList from "./data/PullRequestList.json";
+import mockPullRequestDetail from "./data/PullRequestDetail.json";
+import mockListCommits from "./data/ListCommits.json";
 
 describe("PullRequestClient", () => {
   let client: PullRequestClient;
@@ -19,12 +22,10 @@ describe("PullRequestClient", () => {
 
   describe("list", () => {
     it("should fetch pull requests and return the response as JSON", async () => {
-      const mockResponse = require("./data/PullRequestList.json");
-
-      spy.mockImplementation((url, options) => {
+      spy.mockImplementation(() => {
         return {
           status: 200,
-          body: JSON.stringify(mockResponse),
+          body: JSON.stringify(mockPullRequestList),
         };
       });
 
@@ -41,16 +42,14 @@ describe("PullRequestClient", () => {
       expect(spy.mock.calls[0][0]).toBe(
         "https://api.github.com/repos/test-owner/test-repo/pulls?state=closed&base=develop&sort=updated&direction=desc&per_page=50&page=2",
       );
-      expect(result).toEqual(mockResponse);
+      expect(result).toEqual(mockPullRequestList);
     });
 
     it("should fetch pull requests with default parameters", async () => {
-      const mockResponse = require("./data/PullRequestList.json");
-
-      spy.mockImplementation((url, options) => {
+      spy.mockImplementation(() => {
         return {
           status: 200,
-          body: JSON.stringify(mockResponse),
+          body: JSON.stringify(mockPullRequestList),
         };
       });
 
@@ -60,11 +59,11 @@ describe("PullRequestClient", () => {
       expect(spy.mock.calls[0][0]).toBe(
         "https://api.github.com/repos/test-owner/test-repo/pulls?state=open&base=master&sort=created&direction=asc&per_page=30&page=1",
       );
-      expect(result).toEqual(mockResponse);
+      expect(result).toEqual(mockPullRequestList);
     });
 
     it("should throw an error if the fetch request fails", async () => {
-      spy.mockImplementation((url, options) => {
+      spy.mockImplementation(() => {
         return {
           status: 500,
           body: "Internal server error",
@@ -86,12 +85,10 @@ describe("PullRequestClient", () => {
 
   describe("get", () => {
     it("should fetch a pull request by number and return the response as JSON", async () => {
-      const mockResponse = require("./data/PullRequestDetail.json");
-
-      spy.mockImplementation((url, options) => {
+      spy.mockImplementation(() => {
         return {
           status: 200,
-          body: JSON.stringify(mockResponse),
+          body: JSON.stringify(mockPullRequestDetail),
         };
       });
 
@@ -101,11 +98,11 @@ describe("PullRequestClient", () => {
       expect(spy.mock.calls[0][0]).toBe(
         "https://api.github.com/repos/test-owner/test-repo/pulls/1",
       );
-      expect(result).toEqual(mockResponse);
+      expect(result).toEqual(mockPullRequestDetail);
     });
 
     it("should throw an error if the fetch request fails", async () => {
-      spy.mockImplementation((url, options) => {
+      spy.mockImplementation(() => {
         return {
           status: 500,
           body: "Internal server error",
@@ -120,12 +117,10 @@ describe("PullRequestClient", () => {
 
   describe("listCommits", () => {
     it("should fetch commits for a pull request and return the response as JSON", async () => {
-      const mockResponse = require("./data/ListCommits.json");
-
-      spy.mockImplementation((url, options) => {
+      spy.mockImplementation(() => {
         return {
           status: 200,
-          body: JSON.stringify(mockResponse),
+          body: JSON.stringify(mockListCommits),
         };
       });
 
@@ -135,16 +130,14 @@ describe("PullRequestClient", () => {
       expect(spy.mock.calls[0][0]).toBe(
         "https://api.github.com/repos/test-owner/test-repo/pulls/1/commits?per_page=50&page=2",
       );
-      expect(result).toEqual(mockResponse);
+      expect(result).toEqual(mockListCommits);
     });
 
     it("should fetch commits for a pull request with default parameters", async () => {
-      const mockResponse = require("./data/ListCommits.json");
-
-      spy.mockImplementation((url, options) => {
+      spy.mockImplementation(() => {
         return {
           status: 200,
-          body: JSON.stringify(mockResponse),
+          body: JSON.stringify(mockListCommits),
         };
       });
 
@@ -154,11 +147,11 @@ describe("PullRequestClient", () => {
       expect(spy.mock.calls[0][0]).toBe(
         "https://api.github.com/repos/test-owner/test-repo/pulls/1/commits?per_page=30&page=1",
       );
-      expect(result).toEqual(mockResponse);
+      expect(result).toEqual(mockListCommits);
     });
 
     it("should throw an error if the fetch request fails", async () => {
-      spy.mockImplementation((url, options) => {
+      spy.mockImplementation(() => {
         return {
           status: 500,
           body: "Internal server error",

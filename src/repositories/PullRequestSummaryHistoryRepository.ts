@@ -1,5 +1,5 @@
 import { PullRequestSummaryHistory } from "@/models/pulls/PullRequestSummaryHistory";
-import {spreadSheetUtil} from "@/utils/spreadSheetUtil";
+import { spreadSheetUtil } from "@/utils/spreadSheetUtil";
 
 /**
  * This class is responsible for handling the data access of the PullRequestSummaryHistory entity.
@@ -12,7 +12,9 @@ export class PullRequestSummaryHistoryRepository {
    * @param history - PullRequestSummaryHistory
    */
   store(history: PullRequestSummaryHistory): void {
-    spreadSheetUtil.appendDataToSpreadsheet(this.sheetName, [history.toRecord()]);
+    spreadSheetUtil.appendDataToSpreadsheet(this.sheetName, [
+      history.toRecord(),
+    ]);
   }
 
   /**

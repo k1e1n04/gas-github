@@ -7,7 +7,7 @@ This is a Google Apps Script library for interacting with the GitHub API.
 Script ID
 
 ```
-1RkNSYFBwlIhq_TLUn5iwrVPBo_swx4yFyluvX-bWoluAX4GuLS6LiUmf
+1M5ez67qXyXKHe0A-BuSalluHTKUfs_8WcNAGGp5R200pkIJ4w1h9GNdA
 ```
 
 ## Usage

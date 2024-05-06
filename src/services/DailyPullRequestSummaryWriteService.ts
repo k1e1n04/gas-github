@@ -90,7 +90,11 @@ export class DailyPullRequestSummaryWriteService {
       filteredSummaries,
       lastPrSummaryHistory,
     );
-    this.pullRequestSummaryRepository.store(filteredSummaries);
+    // Sort summaries by updated_at in ascending order
+    const sortedSummaries = filteredSummaries.sort((a, b) => {
+      return a.updated_at.localeCompare(b.updated_at);
+    });
+    this.pullRequestSummaryRepository.store(sortedSummaries);
     this.pullRequestSummaryHistoryRepository.store(newPrSummaryHistory);
   }
 
@@ -148,6 +152,9 @@ export class DailyPullRequestSummaryWriteService {
         per_page: this.per_page,
         page: i + 1,
       });
+      if (!prs) {
+        return [];
+      }
       return prs.map((pr) => {
         const prDetail = client.get(pr.number);
         return PullRequestSummary.new({

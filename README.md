@@ -5,6 +5,7 @@ This is a Google Apps Script library for interacting with the GitHub API.
 ## Installation
 
 Script ID
+
 ```
 
 ```
@@ -17,21 +18,21 @@ L1 component is a low-level component that provides a simple interface to the Gi
 
 ```javascript
 function myFunction() {
-    const client = new gasGitHub.gasGitHub.PullRequestClient({
-        token: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-        owner: "k1e1n04",
-        repo: "gas-github"
-    })
-    const prList = client.list({
-        state: "open",
-        base: "main",
-        sort: "created",
-        direction: "asc",
-        per_page: 100,
-        page: 1
-    })
-    const pr = client.get(1)
-    const reviews = client.listReviews(1)
+  const client = new gasGitHub.gasGitHub.PullRequestClient({
+    token: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    owner: "k1e1n04",
+    repo: "gas-github",
+  });
+  const prList = client.list({
+    state: "open",
+    base: "main",
+    sort: "created",
+    direction: "asc",
+    per_page: 100,
+    page: 1,
+  });
+  const pr = client.get(1);
+  const reviews = client.listReviews(1);
 }
 ```
 
@@ -40,29 +41,30 @@ function myFunction() {
 The L2 component fetches necessary information from GitHub, processes the data, and writes the processed data into a spreadsheet. Here are the basic steps:
 
 #### PR Summary
+
 ```javascript
 function myFunction() {
-  gasGitHub.gasGitHub.fetchDailyPullRequestSummary(
-    {
-      githubToken: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", // GitHub token
-      owner: "k1e1n04", // Repository owner
-      repos: [{
+  gasGitHub.gasGitHub.fetchDailyPullRequestSummary({
+    githubToken: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", // GitHub token
+    owner: "k1e1n04", // Repository owner
+    repos: [
+      {
         name: "gas-github", // Repository name
         base: "main", // Pull requests that are merged into this branch
-      }],
-      estimatedDailyPullRequests: 100 // Estimated daily pull requests
-    }
-  )
+      },
+    ],
+    estimatedDailyPullRequests: 100, // Estimated daily pull requests
+  });
 }
-
 ```
+
 This function create 2 sheets in the active spreadsheet. The first sheet is the summary of the pull requests, and the second sheet is the history of creating the summary.
 
 `PullRequestSummary` sheet:
 You can create graphs and pivot tables from the data in this sheet.
 
 | Header            | Description                                                 |
-|-------------------|-------------------------------------------------------------|
+| ----------------- | ----------------------------------------------------------- |
 | pull_number       | The number of the pull request.                             |
 | title             | The title of the pull request.                              |
 | user              | The user who created the pull request.                      |
@@ -88,15 +90,16 @@ This sheet records the history of creating the summary.
 Don't modify this sheet manually especially `lastPrUpdatedAt` column.
 
 | Header          | Description                                               |
-|-----------------|-----------------------------------------------------------|
+| --------------- | --------------------------------------------------------- |
 | date            | The date when the summary was created.                    |
 | prCount         | The number of pull requests in the summary.               |
 | lastPrUpdatedAt | The date and time when the last pull request was updated. |
 
 ## Contributing
 
-Contributions are welcome! If you're interested in contributing, here are a few ways you can help:  
+Contributions are welcome! If you're interested in contributing, here are a few ways you can help:
+
 - Report bugs: If you encounter any bugs or issues, please open an issue on GitHub.
 - Suggest features: If you have an idea for a new feature or an improvement to an existing feature, please open an issue to discuss it.
 - Submit pull requests: Code changes are welcome! If you've fixed a bug or implemented a new feature, please submit a pull request.
-Thank you for your interest in improving our project!
+  Thank you for your interest in improving our project!

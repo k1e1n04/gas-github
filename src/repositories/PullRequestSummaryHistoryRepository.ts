@@ -14,4 +14,16 @@ export class PullRequestSummaryHistoryRepository {
   store(history: PullRequestSummaryHistory): void {
     utils.appendDataToSpreadsheet(this.sheetName, [history.toRecord()]);
   }
+
+  /**
+   * Get the latest PullRequestSummaryHistory data from the Google Spreadsheet
+   * @returns PullRequestSummaryHistory
+   */
+  getLatest(): PullRequestSummaryHistory | undefined {
+    const record = utils.fetchLatestData(this.sheetName);
+    if (!record) {
+      return undefined;
+    }
+    return record ? PullRequestSummaryHistory.from(record) : undefined;
+  }
 }

@@ -72,4 +72,12 @@ export const spreadSheetUtil = {
       {} as Record<string, unknown>,
     );
   },
+
+    /**
+     * Get the default value of null
+     * @returns - default value of null
+     */
+  defaultValueOfNull(): string {
+    return "N/A";
+  }
 };

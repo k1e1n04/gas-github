@@ -4,6 +4,7 @@ import mockPullRequestDetail from "@/clients/data/PullRequestDetail.json";
 import mockReviewList from "@/clients/data/ReviewList.json";
 import { State } from "@/types/responses/State";
 import dayjs from "dayjs";
+import {spreadSheetUtil} from "@/utils/spreadSheetUtil";
 describe("PullRequestSummary", () => {
   describe("new", () => {
     it("should create a new PullRequestSummary", () => {
@@ -46,10 +47,7 @@ describe("PullRequestSummary", () => {
         ),
       );
       expect(result.timeToClose).toEqual(
-        dayjs(mockIngredients.pr.merged_at).diff(
-          dayjs(mockIngredients.pr.created_at),
-          "hour",
-        ),
+        spreadSheetUtil.defaultValueOfNull(),
       );
     });
 
@@ -83,7 +81,7 @@ describe("PullRequestSummary", () => {
       expect(result.created_at).toEqual(mockIngredients.pr.created_at);
       expect(result.updated_at).toEqual(mockIngredients.pr.updated_at);
       expect(result.closed_at).toEqual(mockIngredients.pr.closed_at);
-      expect(result.merged_at).toBeNull();
+      expect(result.merged_at).toEqual(spreadSheetUtil.defaultValueOfNull());
       expect(result.firstReviewedAt).toEqual(
         mockIngredients.reviews[0].submitted_at,
       );
@@ -94,10 +92,7 @@ describe("PullRequestSummary", () => {
         ),
       );
       expect(result.timeToClose).toEqual(
-        dayjs(mockIngredients.pr.closed_at).diff(
-          dayjs(mockIngredients.pr.created_at),
-          "hour",
-        ),
+        spreadSheetUtil.defaultValueOfNull(),
       );
     });
 
@@ -131,13 +126,10 @@ describe("PullRequestSummary", () => {
       expect(result.updated_at).toEqual(mockIngredients.pr.updated_at);
       expect(result.closed_at).toEqual(mockIngredients.pr.closed_at);
       expect(result.merged_at).toEqual(mockIngredients.pr.merged_at);
-      expect(result.firstReviewedAt).toBeUndefined();
-      expect(result.timeToFirstReview).toBeUndefined();
+      expect(result.firstReviewedAt).toEqual(spreadSheetUtil.defaultValueOfNull());
+      expect(result.timeToFirstReview).toEqual(spreadSheetUtil.defaultValueOfNull());
       expect(result.timeToClose).toEqual(
-        dayjs(mockIngredients.pr.closed_at).diff(
-          dayjs(mockIngredients.pr.created_at),
-          "hour",
-        ),
+        spreadSheetUtil.defaultValueOfNull(),
       );
     });
   });

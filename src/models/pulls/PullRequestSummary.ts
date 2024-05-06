@@ -2,6 +2,7 @@ import { PullRequestSummaryIngredients } from "@/types/params/PullRequestSummary
 import { datetimeUtil } from "@/utils/datetimeUtil";
 import { ValueObject } from "@/models/ValueObject";
 import { PullRequestSummaryParam } from "@/types/params/PullRequestSummaryParam";
+import {spreadSheetUtil} from "@/utils/spreadSheetUtil";
 
 /**
  * Pull request summary
@@ -35,7 +36,7 @@ export class PullRequestSummary extends ValueObject {
   /**
    * Milestone
    */
-  readonly milestone?: string;
+  readonly milestone: string;
 
   /**
    * Number of comments
@@ -70,7 +71,7 @@ export class PullRequestSummary extends ValueObject {
   /**
    * Is draft
    */
-  readonly draft?: boolean;
+  readonly draft: boolean;
 
   /**
    * Created at
@@ -85,27 +86,27 @@ export class PullRequestSummary extends ValueObject {
   /**
    * Closed at
    */
-  readonly closed_at?: string | null;
+  readonly closed_at: string;
 
   /**
    * Merged at
    */
-  readonly merged_at?: string | null;
+  readonly merged_at: string;
 
   /**
    * First reviewed at
    */
-  readonly firstReviewedAt?: string;
+  readonly firstReviewedAt: string;
 
   /**
    * Time taken to close the pull request
    */
-  readonly timeToClose?: number;
+  readonly timeToClose: number | string;
 
   /**
    * Time taken to first review
    */
-  readonly timeToFirstReview?: number;
+  readonly timeToFirstReview: number | string;
 
   /**
    * Time taken to close the pull request
@@ -155,21 +156,21 @@ export class PullRequestSummary extends ValueObject {
     this.title = param.title;
     this.user = param.user;
     this.status = param.status;
-    this.milestone = param.milestone;
+    this.milestone = param.milestone || spreadSheetUtil.defaultValueOfNull();
     this.comments = param.comments;
     this.review_comments = param.review_comments;
     this.commits = param.commits;
     this.additions = param.additions;
     this.deletions = param.deletions;
     this.change_files = param.change_files;
-    this.draft = param.draft;
+    this.draft = param.draft || false;
     this.created_at = param.created_at;
     this.updated_at = param.updated_at;
-    this.closed_at = param.closed_at;
-    this.merged_at = param.merged_at;
-    this.firstReviewedAt = param.firstReviewedAt;
-    this.timeToFirstReview = param.timeToFirstReview;
-    this.timeToClose = param.timeToClose;
+    this.closed_at = param.closed_at || spreadSheetUtil.defaultValueOfNull();
+    this.merged_at = param.merged_at || spreadSheetUtil.defaultValueOfNull();
+    this.firstReviewedAt = param.firstReviewedAt || spreadSheetUtil.defaultValueOfNull();
+    this.timeToFirstReview = param.timeToFirstReview || spreadSheetUtil.defaultValueOfNull();
+    this.timeToClose = param.timeToClose || spreadSheetUtil.defaultValueOfNull();
     Object.freeze(this);
   }
 

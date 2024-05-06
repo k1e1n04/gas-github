@@ -1,5 +1,5 @@
 import { PullRequestSummaryHistory } from "@/models/pulls/PullRequestSummaryHistory";
-import { generateMockPullRequestSummary } from "@/mocks/MockPullRequestSummary";
+import { generateMockPullRequestSummary } from "@/models/mocks/MockPullRequestSummary";
 import {PullRequestSummary} from "@/models/pulls/PullRequestSummary";
 
 describe("PullRequestSummaryHistory", () => {

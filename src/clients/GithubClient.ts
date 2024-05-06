@@ -22,9 +22,8 @@ class GithubClient {
   private readonly owner: string;
   /**
    * GitHub repository name
-   * @private
    */
-  private readonly repo: string;
+  readonly repo: string;
   /**
    * Base URL for the GitHub API
    * @private

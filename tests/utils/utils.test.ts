@@ -54,10 +54,10 @@ describe("utils", () => {
       utils.writeSpreadsheet(mockSheet, dictArray);
 
       expect(mockSheet.getRange).toHaveBeenCalledWith(
-          1,
-          1,
-          dictArray.length + 1,
-          Object.keys(dictArray[0]).length
+        1,
+        1,
+        dictArray.length + 1,
+        Object.keys(dictArray[0]).length,
       );
       expect(mockSheet.setValues).toHaveBeenCalledWith([
         ["name", "age"],

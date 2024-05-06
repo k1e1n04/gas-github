@@ -4,6 +4,8 @@ import {
   PullRequestClient,
 } from "./clients/GithubClient";
 
-(global as any).PullRequestClient = PullRequestClient;
-(global as any).IssueClient = IssueClient;
-(global as any).CommitClient = CommitClient;
+(global as any).GasGitHub = {
+  PullRequestClient,
+  IssueClient,
+  CommitClient,
+};

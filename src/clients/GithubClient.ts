@@ -100,6 +100,9 @@ class GithubClient {
 
 /**
  * PullRequestClient
+ * NOTE:
+ * - This class is responsible for fetching pull requests from the GitHub API.
+ * - Please Read More: https://docs.github.com/ja/rest/pulls/pulls?apiVersion=2022-11-28
  *
  * @description
  * GitHub API client for pull requests

@@ -21,6 +21,7 @@ export class PullRequestSummaryHistory extends ValueObject {
     this.date = date;
     this.prCount = prCount;
     this.lastPrUpdatedAt = lastPrUpdatedAt;
+    Object.freeze(this);
   }
 
   /**

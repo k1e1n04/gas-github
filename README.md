@@ -42,6 +42,9 @@ The L2 component fetches necessary information from GitHub, processes the data, 
 
 #### PR Summary
 
+The estimatedDailyPullRequests parameter is used to specify the estimated number of daily pull requests.
+If you're running this for the first time, you might want to set a larger number for estimatedDailyPullRequests to fetch past pull requests as well.
+
 ```javascript
 function myFunction() {
   gasGitHub.gasGitHub.fetchDailyPullRequestSummary({
@@ -64,7 +67,7 @@ This function create 2 sheets in the active spreadsheet. The first sheet is the 
 You can create graphs and pivot tables from the data in this sheet.
 
 | Header            | Description                                                 |
-| ----------------- | ----------------------------------------------------------- |
+|-------------------|-------------------------------------------------------------|
 | pull_number       | The number of the pull request.                             |
 | title             | The title of the pull request.                              |
 | user              | The user who created the pull request.                      |
@@ -90,7 +93,7 @@ This sheet records the history of creating the summary.
 Don't modify this sheet manually especially `lastPrUpdatedAt` column.
 
 | Header          | Description                                               |
-| --------------- | --------------------------------------------------------- |
+|-----------------|-----------------------------------------------------------|
 | date            | The date when the summary was created.                    |
 | prCount         | The number of pull requests in the summary.               |
 | lastPrUpdatedAt | The date and time when the last pull request was updated. |

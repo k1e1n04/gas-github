@@ -58,10 +58,12 @@ export const spreadSheetUtil = {
       return undefined;
     }
     const lastColumn = sheet.getLastColumn();
-    const range = sheet.getRange(lastRow, 1, 1, lastColumn);
-    const values = range.getValues();
-    const keys = values[0];
-    const data = values[1];
+    const headerRange = sheet.getRange(1, 1, 1, lastColumn);
+    const headerValues = headerRange.getValues();
+    const keys = headerValues[0];
+    const dataRange = sheet.getRange(lastRow, 1, 1, lastColumn);
+    const dataValues = dataRange.getValues();
+    const data = dataValues[0];
     return keys.reduce(
       (acc, key, index) => {
         acc[key] = data[index];

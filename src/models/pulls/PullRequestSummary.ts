@@ -1,5 +1,5 @@
 import { PullRequestSummaryIngredients } from "@/types/params/PullRequestSummaryIngredients";
-import {utils} from "@/utils/utils";
+import { utils } from "@/utils/utils";
 
 export class PullRequestSummary {
   /**

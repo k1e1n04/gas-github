@@ -249,7 +249,9 @@ export class PullRequestSummary extends ValueObject {
       timeToFirstReview: record.time_to_first_review
         ? Number(record.time_to_first_review)
         : undefined,
-      timeToClose: record.time_to_close ? Number(record.time_to_close) : undefined,
+      timeToClose: record.time_to_close
+        ? Number(record.time_to_close)
+        : undefined,
     });
   }
 }

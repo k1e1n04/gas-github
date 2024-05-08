@@ -1,5 +1,3 @@
-import { ReviewResponse } from "@/types/responses/reviews/ReviewResponse";
-
 /**
  * Pull request summary parameters
  */

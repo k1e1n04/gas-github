@@ -73,11 +73,11 @@ export const spreadSheetUtil = {
     );
   },
 
-    /**
-     * Get the default value of null
-     * @returns - default value of null
-     */
+  /**
+   * Get the default value of null
+   * @returns - default value of null
+   */
   defaultValueOfNull(): string {
     return "N/A";
-  }
+  },
 };

@@ -4,7 +4,7 @@ import mockPullRequestDetail from "@/clients/data/PullRequestDetail.json";
 import mockReviewList from "@/clients/data/ReviewList.json";
 import { State } from "@/types/responses/State";
 import dayjs from "dayjs";
-import {spreadSheetUtil} from "@/utils/spreadSheetUtil";
+import { spreadSheetUtil } from "@/utils/spreadSheetUtil";
 describe("PullRequestSummary", () => {
   describe("new", () => {
     it("should create a new PullRequestSummary", () => {
@@ -46,9 +46,7 @@ describe("PullRequestSummary", () => {
           "hour",
         ),
       );
-      expect(result.timeToClose).toEqual(
-        spreadSheetUtil.defaultValueOfNull(),
-      );
+      expect(result.timeToClose).toEqual(spreadSheetUtil.defaultValueOfNull());
     });
 
     it("should create a new PullRequestSummary without merged_at", () => {
@@ -91,9 +89,7 @@ describe("PullRequestSummary", () => {
           "hour",
         ),
       );
-      expect(result.timeToClose).toEqual(
-        spreadSheetUtil.defaultValueOfNull(),
-      );
+      expect(result.timeToClose).toEqual(spreadSheetUtil.defaultValueOfNull());
     });
 
     it("should create a new PullRequestSummary without reviews", () => {
@@ -126,11 +122,13 @@ describe("PullRequestSummary", () => {
       expect(result.updated_at).toEqual(mockIngredients.pr.updated_at);
       expect(result.closed_at).toEqual(mockIngredients.pr.closed_at);
       expect(result.merged_at).toEqual(mockIngredients.pr.merged_at);
-      expect(result.firstReviewedAt).toEqual(spreadSheetUtil.defaultValueOfNull());
-      expect(result.timeToFirstReview).toEqual(spreadSheetUtil.defaultValueOfNull());
-      expect(result.timeToClose).toEqual(
+      expect(result.firstReviewedAt).toEqual(
         spreadSheetUtil.defaultValueOfNull(),
       );
+      expect(result.timeToFirstReview).toEqual(
+        spreadSheetUtil.defaultValueOfNull(),
+      );
+      expect(result.timeToClose).toEqual(spreadSheetUtil.defaultValueOfNull());
     });
   });
 

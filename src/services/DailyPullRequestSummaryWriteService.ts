@@ -4,6 +4,7 @@ import { PullRequestSummary } from "@/models/pulls/PullRequestSummary";
 import { PullRequestSummaryHistoryRepository } from "@/repositories/PullRequestSummaryHistoryRepository";
 import { PullRequestSummaryRepository } from "@/repositories/PullRequestSummaryRepository";
 import { PullRequestSummaryHistory } from "@/models/pulls/PullRequestSummaryHistory";
+import dayjs from "dayjs";
 
 /**
  * This class is responsible for writing the daily pull request summary.
@@ -113,7 +114,12 @@ export class DailyPullRequestSummaryWriteService {
       return summaries;
     }
     return summaries.filter((summary) => {
-      return summary.updated_at > lastPrSummaryHistory.lastPrUpdatedAt;
+      const updated_date = dayjs(summary.updated_at).format("YYYY-MM-DD");
+      const closed_date = dayjs(summary.closed_at).format("YYYY-MM-DD");
+      return (
+        summary.updated_at > lastPrSummaryHistory.lastPrUpdatedAt &&
+        updated_date === closed_date
+      );
     });
   }
 

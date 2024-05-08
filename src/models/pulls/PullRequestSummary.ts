@@ -2,7 +2,7 @@ import { PullRequestSummaryIngredients } from "@/types/params/PullRequestSummary
 import { datetimeUtil } from "@/utils/datetimeUtil";
 import { ValueObject } from "@/models/ValueObject";
 import { PullRequestSummaryParam } from "@/types/params/PullRequestSummaryParam";
-import {spreadSheetUtil} from "@/utils/spreadSheetUtil";
+import { spreadSheetUtil } from "@/utils/spreadSheetUtil";
 
 /**
  * Pull request summary
@@ -168,9 +168,12 @@ export class PullRequestSummary extends ValueObject {
     this.updated_at = param.updated_at;
     this.closed_at = param.closed_at || spreadSheetUtil.defaultValueOfNull();
     this.merged_at = param.merged_at || spreadSheetUtil.defaultValueOfNull();
-    this.firstReviewedAt = param.firstReviewedAt || spreadSheetUtil.defaultValueOfNull();
-    this.timeToFirstReview = param.timeToFirstReview || spreadSheetUtil.defaultValueOfNull();
-    this.timeToClose = param.timeToClose || spreadSheetUtil.defaultValueOfNull();
+    this.firstReviewedAt =
+      param.firstReviewedAt || spreadSheetUtil.defaultValueOfNull();
+    this.timeToFirstReview =
+      param.timeToFirstReview || spreadSheetUtil.defaultValueOfNull();
+    this.timeToClose =
+      param.timeToClose || spreadSheetUtil.defaultValueOfNull();
     Object.freeze(this);
   }
 

@@ -119,8 +119,8 @@ describe("spreadSheetUtil", () => {
       mockSheet.getLastRow.mockReturnValue(2);
       mockSheet.getLastColumn.mockReturnValue(2);
       mockRange.getValues
-          .mockReturnValueOnce([Object.keys(mockData)]) // First call returns keys
-          .mockReturnValueOnce([Object.values(mockData)]); // Second call returns data
+        .mockReturnValueOnce([Object.keys(mockData)]) // First call returns keys
+        .mockReturnValueOnce([Object.values(mockData)]); // Second call returns data
 
       const result = spreadSheetUtil.fetchLatestData("sheetName");
 

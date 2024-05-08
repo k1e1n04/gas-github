@@ -19,7 +19,7 @@ describe("PullRequestSummaryHistory", () => {
       const result = PullRequestSummaryHistory.new(mockSummaries);
 
       expect(result.prCount).toEqual(mockSummaries.length);
-      expect(result.lastPrUpdatedAt).toEqual(mockSummaries[1].updated_at);
+      expect(result.lastPrUpdatedAt).toEqual(mockSummaries[1].updatedAt);
       expect(result.date).toEqual(expect.any(String));
       expect(result.prCount).toEqual(expect.any(Number));
     });
@@ -44,7 +44,7 @@ describe("PullRequestSummaryHistory", () => {
     );
 
     expect(result.prCount).toEqual(mockSummaries.length);
-    expect(result.lastPrUpdatedAt).toEqual(lastMockSummaries[0].updated_at);
+    expect(result.lastPrUpdatedAt).toEqual(lastMockSummaries[0].updatedAt);
     expect(result.date).toEqual(expect.any(String));
     expect(result.prCount).toEqual(expect.any(Number));
   });

@@ -93,7 +93,7 @@ export class DailyPullRequestSummaryWriteService {
     );
     // Sort summaries by updated_at in ascending order
     const sortedSummaries = filteredSummaries.sort((a, b) => {
-      return a.updated_at.localeCompare(b.updated_at);
+      return a.updatedAt.localeCompare(b.updatedAt);
     });
     this.pullRequestSummaryRepository.store(sortedSummaries);
     this.pullRequestSummaryHistoryRepository.store(newPrSummaryHistory);
@@ -114,10 +114,10 @@ export class DailyPullRequestSummaryWriteService {
       return summaries;
     }
     return summaries.filter((summary) => {
-      const updated_date = dayjs(summary.updated_at).format("YYYY-MM-DD");
-      const closed_date = dayjs(summary.closed_at).format("YYYY-MM-DD");
+      const updated_date = dayjs(summary.updatedAt).format("YYYY-MM-DD");
+      const closed_date = dayjs(summary.closedAt).format("YYYY-MM-DD");
       return (
-        summary.updated_at > lastPrSummaryHistory.lastPrUpdatedAt &&
+        summary.updatedAt > lastPrSummaryHistory.lastPrUpdatedAt &&
         updated_date === closed_date
       );
     });

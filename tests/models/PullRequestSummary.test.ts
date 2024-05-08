@@ -19,24 +19,22 @@ describe("PullRequestSummary", () => {
 
       const result = PullRequestSummary.new(mockIngredients);
 
-      expect(result.pull_number).toEqual(mockIngredients.pr.number);
+      expect(result.pullNumber).toEqual(mockIngredients.pr.number);
       expect(result.title).toEqual(mockIngredients.pr.title);
       expect(result.user).toEqual(mockIngredients.pr.user.login);
       expect(result.status).toEqual(mockIngredients.pr.state);
       expect(result.milestone).toEqual(mockIngredients.pr.milestone?.title);
       expect(result.comments).toEqual(mockIngredients.pr.comments);
-      expect(result.review_comments).toEqual(
-        mockIngredients.pr.review_comments,
-      );
+      expect(result.reviewComments).toEqual(mockIngredients.pr.review_comments);
       expect(result.commits).toEqual(mockIngredients.pr.commits);
       expect(result.additions).toEqual(mockIngredients.pr.additions);
       expect(result.deletions).toEqual(mockIngredients.pr.deletions);
-      expect(result.change_files).toEqual(mockIngredients.pr.changed_files);
+      expect(result.changeFiles).toEqual(mockIngredients.pr.changed_files);
       expect(result.draft).toEqual(mockIngredients.pr.draft);
-      expect(result.created_at).toEqual(mockIngredients.pr.created_at);
-      expect(result.updated_at).toEqual(mockIngredients.pr.updated_at);
-      expect(result.closed_at).toEqual(mockIngredients.pr.closed_at);
-      expect(result.merged_at).toEqual(mockIngredients.pr.merged_at);
+      expect(result.createdAt).toEqual(mockIngredients.pr.created_at);
+      expect(result.updatedAt).toEqual(mockIngredients.pr.updated_at);
+      expect(result.closedAt).toEqual(mockIngredients.pr.closed_at);
+      expect(result.mergedAt).toEqual(mockIngredients.pr.merged_at);
       expect(result.firstReviewedAt).toEqual(
         mockIngredients.reviews[0].submitted_at,
       );
@@ -49,7 +47,7 @@ describe("PullRequestSummary", () => {
       expect(result.timeToClose).toEqual(spreadSheetUtil.defaultValueOfNull());
     });
 
-    it("should create a new PullRequestSummary without merged_at", () => {
+    it("should create a new PullRequestSummary without mergedAt", () => {
       const mockIngredients: PullRequestSummaryIngredients = {
         pr: {
           ...mockPullRequestDetail,
@@ -62,24 +60,22 @@ describe("PullRequestSummary", () => {
 
       const result = PullRequestSummary.new(mockIngredients);
 
-      expect(result.pull_number).toEqual(mockIngredients.pr.number);
+      expect(result.pullNumber).toEqual(mockIngredients.pr.number);
       expect(result.title).toEqual(mockIngredients.pr.title);
       expect(result.user).toEqual(mockIngredients.pr.user.login);
       expect(result.status).toEqual(mockIngredients.pr.state);
       expect(result.milestone).toEqual(mockIngredients.pr.milestone?.title);
       expect(result.comments).toEqual(mockIngredients.pr.comments);
-      expect(result.review_comments).toEqual(
-        mockIngredients.pr.review_comments,
-      );
+      expect(result.reviewComments).toEqual(mockIngredients.pr.review_comments);
       expect(result.commits).toEqual(mockIngredients.pr.commits);
       expect(result.additions).toEqual(mockIngredients.pr.additions);
       expect(result.deletions).toEqual(mockIngredients.pr.deletions);
-      expect(result.change_files).toEqual(mockIngredients.pr.changed_files);
+      expect(result.changeFiles).toEqual(mockIngredients.pr.changed_files);
       expect(result.draft).toEqual(mockIngredients.pr.draft);
-      expect(result.created_at).toEqual(mockIngredients.pr.created_at);
-      expect(result.updated_at).toEqual(mockIngredients.pr.updated_at);
-      expect(result.closed_at).toEqual(mockIngredients.pr.closed_at);
-      expect(result.merged_at).toEqual(spreadSheetUtil.defaultValueOfNull());
+      expect(result.createdAt).toEqual(mockIngredients.pr.created_at);
+      expect(result.updatedAt).toEqual(mockIngredients.pr.updated_at);
+      expect(result.closedAt).toEqual(mockIngredients.pr.closed_at);
+      expect(result.mergedAt).toEqual(spreadSheetUtil.defaultValueOfNull());
       expect(result.firstReviewedAt).toEqual(
         mockIngredients.reviews[0].submitted_at,
       );
@@ -104,24 +100,22 @@ describe("PullRequestSummary", () => {
 
       const result = PullRequestSummary.new(mockIngredients);
 
-      expect(result.pull_number).toEqual(mockIngredients.pr.number);
+      expect(result.pullNumber).toEqual(mockIngredients.pr.number);
       expect(result.title).toEqual(mockIngredients.pr.title);
       expect(result.user).toEqual(mockIngredients.pr.user.login);
       expect(result.status).toEqual(mockIngredients.pr.state);
       expect(result.milestone).toEqual(mockIngredients.pr.milestone?.title);
       expect(result.comments).toEqual(mockIngredients.pr.comments);
-      expect(result.review_comments).toEqual(
-        mockIngredients.pr.review_comments,
-      );
+      expect(result.reviewComments).toEqual(mockIngredients.pr.review_comments);
       expect(result.commits).toEqual(mockIngredients.pr.commits);
       expect(result.additions).toEqual(mockIngredients.pr.additions);
       expect(result.deletions).toEqual(mockIngredients.pr.deletions);
-      expect(result.change_files).toEqual(mockIngredients.pr.changed_files);
+      expect(result.changeFiles).toEqual(mockIngredients.pr.changed_files);
       expect(result.draft).toEqual(mockIngredients.pr.draft);
-      expect(result.created_at).toEqual(mockIngredients.pr.created_at);
-      expect(result.updated_at).toEqual(mockIngredients.pr.updated_at);
-      expect(result.closed_at).toEqual(mockIngredients.pr.closed_at);
-      expect(result.merged_at).toEqual(mockIngredients.pr.merged_at);
+      expect(result.createdAt).toEqual(mockIngredients.pr.created_at);
+      expect(result.updatedAt).toEqual(mockIngredients.pr.updated_at);
+      expect(result.closedAt).toEqual(mockIngredients.pr.closed_at);
+      expect(result.mergedAt).toEqual(mockIngredients.pr.merged_at);
       expect(result.firstReviewedAt).toEqual(
         spreadSheetUtil.defaultValueOfNull(),
       );
@@ -152,37 +146,35 @@ describe("PullRequestSummary", () => {
         updated_at: "2022-01-02T00:00:00Z",
         closed_at: "2022-01-03T00:00:00Z",
         merged_at: "2022-01-04T00:00:00Z",
-        firstReviewedAt: "2022-01-02T00:00:00Z",
-        timeToFirstReview: "24",
-        timeToClose: "72",
+        first_reviewed_at: "2022-01-02T00:00:00Z",
+        time_to_first_review: "24",
+        time_to_close: "72",
       };
 
       const result = PullRequestSummary.from(mockRecord);
 
-      expect(result.pull_number).toEqual(Number(mockRecord.pull_number));
+      expect(result.pullNumber).toEqual(Number(mockRecord.pull_number));
       expect(result.repository).toEqual(mockRecord.repository);
       expect(result.title).toEqual(mockRecord.title);
       expect(result.user).toEqual(mockRecord.user);
       expect(result.status).toEqual(mockRecord.status);
       expect(result.milestone).toEqual(mockRecord.milestone);
       expect(result.comments).toEqual(Number(mockRecord.comments));
-      expect(result.review_comments).toEqual(
-        Number(mockRecord.review_comments),
-      );
+      expect(result.reviewComments).toEqual(Number(mockRecord.review_comments));
       expect(result.commits).toEqual(Number(mockRecord.commits));
       expect(result.additions).toEqual(Number(mockRecord.additions));
       expect(result.deletions).toEqual(Number(mockRecord.deletions));
-      expect(result.change_files).toEqual(Number(mockRecord.change_files));
+      expect(result.changeFiles).toEqual(Number(mockRecord.change_files));
       expect(result.draft).toEqual(mockRecord.draft === "true");
-      expect(result.created_at).toEqual(mockRecord.created_at);
-      expect(result.updated_at).toEqual(mockRecord.updated_at);
-      expect(result.closed_at).toEqual(mockRecord.closed_at);
-      expect(result.merged_at).toEqual(mockRecord.merged_at);
-      expect(result.firstReviewedAt).toEqual(mockRecord.firstReviewedAt);
+      expect(result.createdAt).toEqual(mockRecord.created_at);
+      expect(result.updatedAt).toEqual(mockRecord.updated_at);
+      expect(result.closedAt).toEqual(mockRecord.closed_at);
+      expect(result.mergedAt).toEqual(mockRecord.merged_at);
+      expect(result.firstReviewedAt).toEqual(mockRecord.first_reviewed_at);
       expect(result.timeToFirstReview).toEqual(
-        Number(mockRecord.timeToFirstReview),
+        Number(mockRecord.time_to_first_review),
       );
-      expect(result.timeToClose).toEqual(Number(mockRecord.timeToClose));
+      expect(result.timeToClose).toEqual(Number(mockRecord.time_to_close));
     });
   });
 });

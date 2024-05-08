@@ -6,7 +6,7 @@ jest.mock("@/utils/spreadSheetUtil");
 
 describe("PullRequestSummaryHistoryRepository", () => {
   let repository: PullRequestSummaryHistoryRepository;
-  let mockSpreadSheetUtil = spreadSheetUtil as jest.Mocked<
+  const mockSpreadSheetUtil = spreadSheetUtil as jest.Mocked<
     typeof spreadSheetUtil
   >;
 

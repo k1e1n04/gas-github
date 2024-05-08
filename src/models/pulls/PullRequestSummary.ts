@@ -245,11 +245,11 @@ export class PullRequestSummary extends ValueObject {
       updated_at: record.updated_at,
       closed_at: record.closed_at,
       merged_at: record.merged_at,
-      firstReviewedAt: record.firstReviewedAt,
-      timeToFirstReview: record.timeToFirstReview
-        ? Number(record.timeToFirstReview)
+      firstReviewedAt: record.first_reviewed_at,
+      timeToFirstReview: record.time_to_first_review
+        ? Number(record.time_to_first_review)
         : undefined,
-      timeToClose: record.timeToClose ? Number(record.timeToClose) : undefined,
+      timeToClose: record.time_to_close ? Number(record.time_to_close) : undefined,
     });
   }
 }

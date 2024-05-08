@@ -12,11 +12,25 @@ export abstract class ValueObject {
   }
 
   /**
-   * Convert the object to the record format
+   * Convert the object to the JSON string
+   * @returns - JSON string
+   */
+  private toSnakeLowerCase(str: string): string {
+    return str.replace(/([A-Z])/g, (match) => `_${match.toLowerCase()}`);
+  }
+
+  /**
+   * Convert the object to the record format with snake case keys
    *
    * @returns - record
    */
   public toRecord(): Record<string, unknown> {
-    return JSON.parse(JSON.stringify(this));
+    const record = JSON.parse(JSON.stringify(this));
+    return Object.fromEntries(
+      Object.entries(record).map(([key, value]) => [
+        this.toSnakeLowerCase(key),
+        value,
+      ]),
+    );
   }
 }

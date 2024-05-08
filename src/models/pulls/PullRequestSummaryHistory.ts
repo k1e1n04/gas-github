@@ -71,9 +71,9 @@ export class PullRequestSummaryHistory extends ValueObject {
       return undefined;
     }
     return prSummaries.reduce((currentSummary, nextSummary) => {
-      return currentSummary.updated_at > nextSummary.updated_at
+      return currentSummary.updatedAt > nextSummary.updatedAt
         ? currentSummary
         : nextSummary;
-    }).updated_at;
+    }).updatedAt;
   }
 }

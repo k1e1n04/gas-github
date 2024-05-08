@@ -11,7 +11,7 @@ export class PullRequestSummary extends ValueObject {
   /**
    * Pull request number
    */
-  readonly pull_number: number;
+  readonly pullNumber: number;
 
   /**
    * Repository name
@@ -46,7 +46,7 @@ export class PullRequestSummary extends ValueObject {
   /**
    * Number of review comments
    */
-  readonly review_comments: number;
+  readonly reviewComments: number;
 
   /**
    * Number of commits
@@ -66,7 +66,7 @@ export class PullRequestSummary extends ValueObject {
   /**
    * Number of changed files
    */
-  readonly change_files: number;
+  readonly changeFiles: number;
 
   /**
    * Is draft
@@ -76,22 +76,22 @@ export class PullRequestSummary extends ValueObject {
   /**
    * Created at
    */
-  readonly created_at: string;
+  readonly createdAt: string;
 
   /**
    * Updated at
    */
-  readonly updated_at: string;
+  readonly updatedAt: string;
 
   /**
    * Closed at
    */
-  readonly closed_at: string;
+  readonly closedAt: string;
 
   /**
    * Merged at
    */
-  readonly merged_at: string;
+  readonly mergedAt: string;
 
   /**
    * First reviewed at
@@ -151,23 +151,23 @@ export class PullRequestSummary extends ValueObject {
    */
   private constructor(param: PullRequestSummaryParam) {
     super();
-    this.pull_number = param.pull_number;
+    this.pullNumber = param.pull_number;
     this.repository = param.repository;
     this.title = param.title;
     this.user = param.user;
     this.status = param.status;
     this.milestone = param.milestone || spreadSheetUtil.defaultValueOfNull();
     this.comments = param.comments;
-    this.review_comments = param.review_comments;
+    this.reviewComments = param.review_comments;
     this.commits = param.commits;
     this.additions = param.additions;
     this.deletions = param.deletions;
-    this.change_files = param.change_files;
+    this.changeFiles = param.change_files;
     this.draft = param.draft || false;
-    this.created_at = param.created_at;
-    this.updated_at = param.updated_at;
-    this.closed_at = param.closed_at || spreadSheetUtil.defaultValueOfNull();
-    this.merged_at = param.merged_at || spreadSheetUtil.defaultValueOfNull();
+    this.createdAt = param.created_at;
+    this.updatedAt = param.updated_at;
+    this.closedAt = param.closed_at || spreadSheetUtil.defaultValueOfNull();
+    this.mergedAt = param.merged_at || spreadSheetUtil.defaultValueOfNull();
     this.firstReviewedAt =
       param.firstReviewedAt || spreadSheetUtil.defaultValueOfNull();
     this.timeToFirstReview =

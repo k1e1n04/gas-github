@@ -5,6 +5,9 @@ import { PullRequestSummaryHistoryRepository } from "@/repositories/PullRequestS
 import { PullRequestSummaryRepository } from "@/repositories/PullRequestSummaryRepository";
 import { PullRequestSummaryHistory } from "@/models/pulls/PullRequestSummaryHistory";
 import dayjs from "dayjs";
+import { PullRequestReviewSummaryRepository } from "@/repositories/PullRequestReviewSummaryRepository";
+import { PullRequestReviewSummary } from "@/models/pulls/PullRequestReviewSummary";
+import { PullRequestDetailResponse } from "@/types/responses/pulls/PullRequestDetailResponse";
 
 /**
  * This class is responsible for writing the daily pull request summary.
@@ -27,6 +30,12 @@ export class DailyPullRequestSummaryWriteService {
    * @private
    */
   private readonly pullRequestSummaryRepository: PullRequestSummaryRepository;
+
+  /**
+   * Pull request review summary repository
+   * @private
+   */
+  private readonly pullRequestReviewSummaryRepository: PullRequestReviewSummaryRepository;
 
   /**
    * Pull request state
@@ -56,11 +65,14 @@ export class DailyPullRequestSummaryWriteService {
     prClients: PullRequestClient[],
     pullRequestSummaryHistoryRepository: PullRequestSummaryHistoryRepository,
     pullRequestSummaryRepository: PullRequestSummaryRepository,
+    pullRequestReviewSummaryRepository: PullRequestReviewSummaryRepository,
   ) {
     this.prClients = prClients;
     this.pullRequestSummaryHistoryRepository =
       pullRequestSummaryHistoryRepository;
     this.pullRequestSummaryRepository = pullRequestSummaryRepository;
+    this.pullRequestReviewSummaryRepository =
+      pullRequestReviewSummaryRepository;
   }
 
   /**
@@ -74,17 +86,18 @@ export class DailyPullRequestSummaryWriteService {
   ): void {
     const lastPrSummaryHistory =
       this.pullRequestSummaryHistoryRepository.getLatest();
-    const summaries = this.prClients
-      .map((client) => {
-        return this.fetchPullRequests(
-          client,
-          repos,
-          estimatedDailyPullRequests,
-        );
-      })
-      .flat();
+    const prSummaries = this.mapPrClientsAndFetchData(
+      repos,
+      estimatedDailyPullRequests,
+      this.fetchPullRequestSummaries,
+    );
+    const prReviewSummaries = this.mapPrClientsAndFetchData(
+      repos,
+      estimatedDailyPullRequests,
+      this.fetchPullRequestReviewSummaries,
+    ).flat();
     const filteredSummaries = this.filterPullRequestSummaries(
-      summaries,
+      prSummaries,
       lastPrSummaryHistory,
     );
     const newPrSummaryHistory = PullRequestSummaryHistory.new(
@@ -97,6 +110,7 @@ export class DailyPullRequestSummaryWriteService {
     });
     this.pullRequestSummaryRepository.store(sortedSummaries);
     this.pullRequestSummaryHistoryRepository.store(newPrSummaryHistory);
+    this.pullRequestReviewSummaryRepository.store(prReviewSummaries);
   }
 
   /**
@@ -134,18 +148,20 @@ export class DailyPullRequestSummaryWriteService {
   }
 
   /**
-   * Fetch pull requests
+   * Fetch data from pull requests
    * @param client - Pull request client
    * @param repos - Repositories
    * @param estimatedMonthlyPullRequests - Estimated monthly pull requests
-   * @returns Pull request summaries
+   * @param callback - Callback function
+   * @returns Fetched data
    * @private
    */
-  private fetchPullRequests(
+  private fetchDataFromPullRequests(
     client: PullRequestClient,
     repos: Repo[],
     estimatedMonthlyPullRequests: number,
-  ): PullRequestSummary[] {
+    callback: (client: PullRequestClient, pr: PullRequestDetailResponse) => any,
+  ) {
     const pageNumbers = this.getPageNumber(estimatedMonthlyPullRequests);
     const defaultBase = "master";
     return Array.from({ length: pageNumbers }, (_, i) => {
@@ -163,12 +179,74 @@ export class DailyPullRequestSummaryWriteService {
       }
       return prs.map((pr) => {
         const prDetail = client.get(pr.number);
-        return PullRequestSummary.new({
-          reviews: client.listReviews(pr.number, 1, 1),
-          pr: prDetail,
-          repository: client.repo,
-        });
+        return callback(client, prDetail);
       });
     }).flat();
+  }
+
+  /**
+   * Fetch pull request summaries
+   * @param client - Pull request client
+   * @param prDetail - Pull request detail
+   * @returns Pull request summary
+   * @private
+   */
+  private fetchPullRequestSummaries(
+    client: PullRequestClient,
+    prDetail: PullRequestDetailResponse,
+  ): PullRequestSummary {
+    return PullRequestSummary.new({
+      reviews: client.listReviews(prDetail.number, 1, 1),
+      pr: prDetail,
+      repository: client.repo,
+    });
+  }
+
+  /**
+   * Fetch pull request review summaries
+   * @param client - Pull request client
+   * @param prDetail - Pull request detail
+   * @private
+   */
+  private fetchPullRequestReviewSummaries(
+    client: PullRequestClient,
+    prDetail: PullRequestDetailResponse,
+  ): PullRequestReviewSummary[] {
+    const reviews = client.listReviews(prDetail.number, 100, 1);
+    return reviews.map((review) => {
+      return PullRequestReviewSummary.new({
+        pullNumber: prDetail.number,
+        repository: client.repo,
+        review: review,
+      });
+    });
+  }
+
+  /**
+   * Map pull request clients and fetch data
+   * @param repos - Repositories
+   * @param estimatedDailyPullRequests - Estimated daily pull requests
+   * @param callback - Callback function
+   * @returns Mapped pull request clients and fetched data
+   * @private
+   */
+  private mapPrClientsAndFetchData(
+    repos: Repo[],
+    estimatedDailyPullRequests: number,
+    callback: (
+      client: PullRequestClient,
+      prDetail: PullRequestDetailResponse,
+    ) => any,
+  ): any[] {
+    return this.prClients
+      .map((client) => {
+        return this.fetchDataFromPullRequests(
+          client,
+          repos,
+          estimatedDailyPullRequests,
+          callback,
+        );
+      })
+      .flat();
   }
 }

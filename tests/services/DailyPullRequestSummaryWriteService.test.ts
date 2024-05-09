@@ -10,12 +10,15 @@ import { PullRequestResponse } from "@/types/responses/pulls/PullRequestResponse
 import { PullRequestDetailResponse } from "@/types/responses/pulls/PullRequestDetailResponse";
 import { PullRequestSummaryHistory } from "@/models/pulls/PullRequestSummaryHistory";
 import { PullRequestSummary } from "@/models/pulls/PullRequestSummary";
+import { PullRequestReviewSummaryRepository } from "@/repositories/PullRequestReviewSummaryRepository";
+import { PullRequestReviewSummary } from "@/models/pulls/PullRequestReviewSummary";
 
 describe("DailyPullRequestSummaryWriteService", () => {
   let service: DailyPullRequestSummaryWriteService;
   let mockPrClient: jest.Mocked<PullRequestClient>;
   let mockPrSummaryHistoryRepo: jest.Mocked<PullRequestSummaryHistoryRepository>;
   let mockPrSummaryRepo: jest.Mocked<PullRequestSummaryRepository>;
+  let mockPrReviewSummaryRepo: jest.Mocked<PullRequestReviewSummaryRepository>;
 
   beforeEach(() => {
     mockPrClient = {
@@ -34,10 +37,15 @@ describe("DailyPullRequestSummaryWriteService", () => {
       store: jest.fn(),
     } as any;
 
+    mockPrReviewSummaryRepo = {
+      store: jest.fn(),
+    } as any;
+
     service = new DailyPullRequestSummaryWriteService(
       [mockPrClient],
       mockPrSummaryHistoryRepo,
       mockPrSummaryRepo,
+      mockPrReviewSummaryRepo,
     );
   });
 
@@ -75,6 +83,12 @@ describe("DailyPullRequestSummaryWriteService", () => {
         undefined,
       );
 
+      const newPrReviewSummary = PullRequestReviewSummary.new({
+        pullNumber: mockPullRequestDetail.number,
+        repository: mockPrClient.repo,
+        review: mockReview[0],
+      });
+
       service.writeDailyPullRequests(repos, estimatedDailyPullRequests);
 
       expect(mockPrClient.list).toHaveBeenCalledWith({
@@ -93,10 +107,17 @@ describe("DailyPullRequestSummaryWriteService", () => {
         1,
         1,
       );
+      expect(
+        mockPrClient.listReviews(mockPullRequestList[0].number, 100, 1),
+      ).toEqual(mockReview);
+      expect(mockPrSummaryHistoryRepo.getLatest).toHaveBeenCalled();
       expect(mockPrSummaryRepo.store).toHaveBeenCalledWith([newPrSummary]);
       expect(mockPrSummaryHistoryRepo.store).toHaveBeenCalledWith(
         newPrSummaryHistory,
       );
+      expect(mockPrReviewSummaryRepo.store).toHaveBeenCalledWith([
+        newPrReviewSummary,
+      ]);
     });
   });
 });

@@ -66,37 +66,47 @@ This function create 2 sheets in the active spreadsheet. The first sheet is the 
 `PullRequestSummary` sheet:
 You can create graphs and pivot tables from the data in this sheet.
 
-| Header            | Description                                                 |
-|-------------------|-------------------------------------------------------------|
-| pull_number       | The number of the pull request.                             |
-| title             | The title of the pull request.                              |
-| user              | The user who created the pull request.                      |
-| status            | The status of the pull request.                             |
-| milestone         | The milestone of the pull request.                          |
-| comments          | The number of comments on the pull request.                 |
-| review_comments   | The number of review comments on the pull request.          |
-| commits           | The number of commits in the pull request.                  |
-| additions         | The number of additions in the pull request.                |
-| deletions         | The number of deletions in the pull request.                |
-| change_files      | The number of changed files in the pull request.            |
-| draft             | The draft status of the pull request.                       |
-| created_at        | The date and time when the pull request was created.        |
-| updated_at        | The date and time when the pull request was last updated.   |
-| closed_at         | The date and time when the pull request was closed.         |
-| merged_at         | The date and time when the pull request was merged.         |
-| firstReviewedAt   | The date and time when the pull request was first reviewed. |
-| timeToFirstReview | The time taken to first review the pull request.            |
-| timeToClose       | The time taken to close the pull request.                   |
+| Header               | Description                                                 |
+|----------------------|-------------------------------------------------------------|
+| pull_number          | The number of the pull request.                             |
+| title                | The title of the pull request.                              |
+| user                 | The user who created the pull request.                      |
+| status               | The status of the pull request.                             |
+| milestone            | The milestone of the pull request.                          |
+| comments             | The number of comments on the pull request.                 |
+| review_comments      | The number of review comments on the pull request.          |
+| commits              | The number of commits in the pull request.                  |
+| additions            | The number of additions in the pull request.                |
+| deletions            | The number of deletions in the pull request.                |
+| change_files         | The number of changed files in the pull request.            |
+| draft                | The draft status of the pull request.                       |
+| created_at           | The date and time when the pull request was created.        |
+| updated_at           | The date and time when the pull request was last updated.   |
+| closed_at            | The date and time when the pull request was closed.         |
+| merged_at            | The date and time when the pull request was merged.         |
+| firstReviewed_at     | The date and time when the pull request was first reviewed. |
+| time_to_first_review | The time taken to first review the pull request.            |
+| time_to_close        | The time taken to close the pull request.                   |
 
 `PullRequestSummaryHistory` sheet:
 This sheet records the history of creating the summary.
 Don't modify this sheet manually especially `lastPrUpdatedAt` column.
 
-| Header          | Description                                               |
-|-----------------|-----------------------------------------------------------|
-| date            | The date when the summary was created.                    |
-| prCount         | The number of pull requests in the summary.               |
-| lastPrUpdatedAt | The date and time when the last pull request was updated. |
+| Header             | Description                                               |
+|--------------------|-----------------------------------------------------------|
+| date               | The date when the summary was created.                    |
+| pr_count           | The number of pull requests in the summary.               |
+| last_pr_updated_at | The date and time when the last pull request was updated. |
+
+`PullRequestReviewSummary` sheet:
+This sheet records the summary of the pull request reviews.
+
+| Header       | Description                                      |
+|--------------|--------------------------------------------------|
+| pull_number  | The number of the pull request.                  |
+| repository   | The repository name.                             |
+| reviewer     | The reviewer of the review.                      |
+| submitted_at | The date and time when the review was submitted. |
 
 ## Contributing
 

@@ -9,42 +9,18 @@ import { DailyPullRequestSummaryFetchService } from "@/services/DailyPullRequest
  */
 export class DailyPullRequestSummaryWriteService {
   /**
-   * Pull request summary history repository
-   * @private
+   * Constructor
+   * @param pullRequestSummaryHistoryRepository - Pull request summary history repository
+   * @param pullRequestSummaryRepository - Pull request summary repository
+   * @param pullRequestReviewSummaryRepository - Pull request review summary repository
+   * @param dailyPullRequestSummaryFetchService - Daily pull request summary fetch service
    */
-  private readonly pullRequestSummaryHistoryRepository: PullRequestSummaryHistoryRepository;
-
-  /**
-   * Pull request clients
-   * @private
-   */
-  private readonly dailyPullRequestSummaryFetchService: DailyPullRequestSummaryFetchService;
-
-  /**
-   * Pull request summary repository
-   * @private
-   */
-  private readonly pullRequestSummaryRepository: PullRequestSummaryRepository;
-
-  /**
-   * Pull request review summary repository
-   * @private
-   */
-  private readonly pullRequestReviewSummaryRepository: PullRequestReviewSummaryRepository;
-
   constructor(
-    pullRequestSummaryHistoryRepository: PullRequestSummaryHistoryRepository,
-    pullRequestSummaryRepository: PullRequestSummaryRepository,
-    pullRequestReviewSummaryRepository: PullRequestReviewSummaryRepository,
-    pullRequestSummaryFetchService: DailyPullRequestSummaryFetchService,
-  ) {
-    this.pullRequestSummaryHistoryRepository =
-      pullRequestSummaryHistoryRepository;
-    this.pullRequestSummaryRepository = pullRequestSummaryRepository;
-    this.pullRequestReviewSummaryRepository =
-      pullRequestReviewSummaryRepository;
-    this.dailyPullRequestSummaryFetchService = pullRequestSummaryFetchService;
-  }
+    private pullRequestSummaryHistoryRepository: PullRequestSummaryHistoryRepository,
+    private pullRequestSummaryRepository: PullRequestSummaryRepository,
+    private pullRequestReviewSummaryRepository: PullRequestReviewSummaryRepository,
+    private dailyPullRequestSummaryFetchService: DailyPullRequestSummaryFetchService,
+  ) {}
 
   /**
    * Write daily pull request summary

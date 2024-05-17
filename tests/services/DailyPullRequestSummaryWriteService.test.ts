@@ -12,6 +12,7 @@ import { PullRequestSummaryHistory } from "@/models/pulls/PullRequestSummaryHist
 import { PullRequestSummary } from "@/models/pulls/PullRequestSummary";
 import { PullRequestReviewSummaryRepository } from "@/repositories/PullRequestReviewSummaryRepository";
 import { PullRequestReviewSummary } from "@/models/pulls/PullRequestReviewSummary";
+import { DailyPullRequestSummaryFetchService } from "@/services/DailyPullRequestSummaryFetchService";
 
 describe("DailyPullRequestSummaryWriteService", () => {
   let service: DailyPullRequestSummaryWriteService;
@@ -42,10 +43,13 @@ describe("DailyPullRequestSummaryWriteService", () => {
     } as any;
 
     service = new DailyPullRequestSummaryWriteService(
-      [mockPrClient],
       mockPrSummaryHistoryRepo,
       mockPrSummaryRepo,
       mockPrReviewSummaryRepo,
+      new DailyPullRequestSummaryFetchService(
+        [mockPrClient],
+        mockPrSummaryHistoryRepo,
+      ),
     );
   });
 

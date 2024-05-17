@@ -84,7 +84,7 @@ You can create graphs and pivot tables from the data in this sheet.
 | updated_at           | The date and time when the pull request was last updated.   |
 | closed_at            | The date and time when the pull request was closed.         |
 | merged_at            | The date and time when the pull request was merged.         |
-| firstReviewed_at     | The date and time when the pull request was first reviewed. |
+| first_reviewed_at     | The date and time when the pull request was first reviewed. |
 | time_to_first_review | The time taken to first review the pull request.            |
 | time_to_close        | The time taken to close the pull request.                   |
 

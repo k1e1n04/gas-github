@@ -1,4 +1,4 @@
-import { PullRequestClient } from "@/clients/GithubClient";
+import { PullRequestClient } from "@/clients/GitHubClient";
 import { GithubClientProps } from "@/types/props/GIthubClientProps";
 import { apiUtil } from "@/utils/apiUtil";
 import mockPullRequestList from "@/clients/data/PullRequestList.json";

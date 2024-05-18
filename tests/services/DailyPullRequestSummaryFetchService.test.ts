@@ -1,5 +1,5 @@
 import { DailyPullRequestSummaryFetchService } from "@/services/DailyPullRequestSummaryFetchService";
-import { PullRequestClient } from "@/clients/GithubClient";
+import { PullRequestClient } from "@/clients/GitHubClient";
 import { PullRequestSummaryHistoryRepository } from "@/repositories/PullRequestSummaryHistoryRepository";
 import mockPullRequestList from "@/clients/data/PullRequestList.json";
 import mockPullRequestDetail from "@/clients/data/PullRequestDetail.json";

@@ -1,11 +1,10 @@
-import { PullRequestClient } from "@/clients/GithubClient";
+import { PullRequestClient } from "@/clients/GitHubClient";
 import { PullRequestReviewSummary } from "@/models/pulls/PullRequestReviewSummary";
 
 /**
  * This class is responsible for fetching the pull request review summary.
  */
 export class PullRequestReviewFetchService {
-
   /**
    * Constructor
    * @param client - Pull request client

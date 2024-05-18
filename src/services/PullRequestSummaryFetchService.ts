@@ -1,18 +1,17 @@
 import { Repo } from "@/types/params/GetDailyPullRequestsParam";
-import { PullRequestClient } from "@/clients/GithubClient";
+import { PullRequestClient } from "@/clients/GitHubClient";
 import { PullRequestSummary } from "@/models/pulls/PullRequestSummary";
 
 /**
  * This class is responsible for fetching the pull request summary.
  */
 export class PullRequestSummaryFetchService {
-
-    /**
-     * Constructor
-     * @param client - Pull request client
-     * @param repos - Repositories
-     * @param estimatedMonthlyPullRequests - Estimated monthly pull requests
-     */
+  /**
+   * Constructor
+   * @param client - Pull request client
+   * @param repos - Repositories
+   * @param estimatedMonthlyPullRequests - Estimated monthly pull requests
+   */
   constructor(
     private client: PullRequestClient,
     private repos: Repo[],

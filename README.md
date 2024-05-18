@@ -1,5 +1,10 @@
 # gas-github
 
+  [![codecov](https://codecov.io/gh/k1e1n04/gas-github/graph/badge.svg?token=ICsr4ZsHxP)](https://codecov.io/gh/k1e1n04/gas-github)
+  ![GitHub license](https://img.shields.io/github/license/k1e1n04/gas-github)
+  ![GitHub release (latest by date)](https://img.shields.io/github/v/release/k1e1n04/gas-github)
+  ![GitHub last commit](https://img.shields.io/github/last-commit/k1e1n04/gas-github)
+
 This is a Google Apps Script library for interacting with the GitHub API.
 
 ## Installation

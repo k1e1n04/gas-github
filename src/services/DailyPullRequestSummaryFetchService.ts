@@ -79,7 +79,11 @@ export class DailyPullRequestSummaryFetchService {
     lastPrSummaryHistory?: PullRequestSummaryHistory,
   ): PullRequestSummary[] {
     if (!lastPrSummaryHistory) {
-      return summaries;
+      return summaries.filter((summary) => {
+        const updated_date = dayjs(summary.updatedAt).format("YYYY-MM-DD");
+        const closed_date = dayjs(summary.closedAt).format("YYYY-MM-DD");
+        return updated_date === closed_date;
+      });
     }
     return summaries.filter((summary) => {
       const updated_date = dayjs(summary.updatedAt).format("YYYY-MM-DD");

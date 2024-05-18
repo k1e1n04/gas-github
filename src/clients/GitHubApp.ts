@@ -5,11 +5,29 @@ import { apiUtil } from "@/utils/apiUtil";
  * This class is responsible for handling the data access of the GitHub App
  */
 export class GitHubApp {
+  private readonly privateKey: string;
+
   constructor(
-    private privateKey: string,
+    privateKey: string,
     private appId: string,
     private installationId: string,
-  ) {}
+  ) {
+    const beginMarker = "-----BEGIN RSA PRIVATE KEY-----";
+    const endMarker = "-----END RSA PRIVATE KEY-----";
+    const beginIndex = privateKey.indexOf(beginMarker) + beginMarker.length;
+    const endIndex = privateKey.indexOf(endMarker);
+    const privateKeyBody = privateKey.slice(beginIndex, endIndex);
+
+    // Support for newlines being replaced by spaces
+    if (privateKeyBody.includes(' ') && !privateKeyBody.includes('\n')) {
+      this.privateKey = privateKey.replace(
+          privateKeyBody,
+          privateKeyBody.replace(/ /g, "\n")
+      );
+    } else {
+      this.privateKey = privateKey;
+    }
+  }
 
   /**
    * Get the installation access token URL for the GitHub App.

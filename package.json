@@ -22,6 +22,7 @@
     "@types/google-apps-script": "^1.0.83",
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.6",
+    "@types/jsrsasign": "^10.5.14",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
     "crypto": "^1.0.1",
@@ -38,6 +39,6 @@
   },
   "dependencies": {
     "dayjs": "^1.11.11",
-    "jsonwebtoken": "^9.0.2"
+    "jsrsasign": "^11.1.0"
   }
 }

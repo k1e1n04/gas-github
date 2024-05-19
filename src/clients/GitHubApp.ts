@@ -1,5 +1,6 @@
-import * as jwt from "jsonwebtoken";
 import { apiUtil } from "@/utils/apiUtil";
+import { KJUR, KEYUTIL } from 'jsrsasign';
+import RSAKey = jsrsasign.RSAKey;
 
 /**
  * This class is responsible for handling the data access of the GitHub App
@@ -43,12 +44,17 @@ export class GitHubApp {
    * ref: https://docs.github.com/ja/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-json-web-token-jwt-for-a-github-app
    */
   private get jwt(): string {
+    const header = { alg: "RS256", typ: "JWT" };
     const payload = {
       iat: Math.floor(Date.now() / 1000) - 10,
       exp: Math.floor(Date.now() / 1000) + 60,
       iss: this.appId,
     };
-    return jwt.sign(payload, this.privateKey, { algorithm: "RS256" });
+    // FIXME: The type of privateKeyPEM should be RSAKey | KJUR.crypto.ECDSA
+    const privateKeyPEM = KEYUTIL.getKey(this.privateKey) as RSAKey | KJUR.crypto.ECDSA;
+    const sHeader = JSON.stringify(header);
+    const sPayload = JSON.stringify(payload);
+    return  KJUR.jws.JWS.sign("RS256", sHeader, sPayload, privateKeyPEM);
   }
 
   /**

@@ -3,7 +3,6 @@ import { apiUtil } from "@/utils/apiUtil";
 import { generateKeyPairSync } from "crypto";
 
 describe("GitHubApp", () => {
-  let gitHubApp: GitHubApp;
   let spy: jest.SpyInstance;
   beforeEach(() => {
     jest.clearAllMocks();

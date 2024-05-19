@@ -21,8 +21,11 @@
     "@google/clasp": "^2.4.2",
     "@types/google-apps-script": "^1.0.83",
     "@types/jest": "^29.5.12",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/jsrsasign": "^10.5.14",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
+    "crypto": "^1.0.1",
     "esbuild": "^0.20.2",
     "esbuild-gas-plugin": "^0.8.0",
     "eslint": "^9.2.0",
@@ -35,6 +38,7 @@
     "typescript-eslint": "^7.8.0"
   },
   "dependencies": {
-    "dayjs": "^1.11.11"
+    "dayjs": "^1.11.11",
+    "jsrsasign": "^11.1.0"
   }
 }

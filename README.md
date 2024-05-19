@@ -16,6 +16,45 @@ Script ID
 
 ## Usage
 
+### Setup
+
+1. Create a new Google Spreadsheet.
+2. Go to Extensions > Apps Script.
+3. Copy and paste the script ID into the "Add-on script" field.
+4. Click the "+" button to add the library.
+5. Click the "Save" button.
+6. Go to File > Project properties > Script properties.
+
+### Use GithubApp
+
+If you want to use GithubApp instead of a personal access token, this library also supports token generation using GithubApp.
+
+1. Create a new GitHub App.
+2. Install the GitHub App to your repository.
+3. Go to the GitHub App settings and generate a private key.
+4. Go to the GitHub App settings and get the App ID.
+5. Go to the GitHub App settings and get the Installation ID.
+6. Go to File > Project properties > Script properties.
+7. Add the following properties:
+   - appId: App ID
+   - installationId: Installation ID
+   - privateKey: Private key (Note: The newlines may be replaced with spaces. However, this is expected and should not cause any issues.)
+8. Use the following code to get the installation access token
+
+```javascript
+function myFunction() {
+  const props = PropertiesService.getScriptProperties()
+  const appId = props.getProperty('appId')
+  const installationId = props.getProperty('installationId')
+  const privateKey = props.getProperty('privateKey')
+  const token = new gasGitHub.gasGitHub.GitHubApp(
+      privateKey,
+      appId,
+      installationId
+  ).getInstallationAccessToken();
+}
+```
+
 ### L1 component
 
 L1 component is a low-level component that provides a simple interface to the GitHub API. Here is an example of how to use the L1 component:
@@ -23,17 +62,17 @@ L1 component is a low-level component that provides a simple interface to the Gi
 ```javascript
 function myFunction() {
   const client = new gasGitHub.gasGitHub.PullRequestClient({
-    token: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    owner: "k1e1n04",
-    repo: "gas-github",
+    token: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", // GitHub token
+    owner: "k1e1n04", // Repository owner
+    repo: "gas-github", // Repository name
   });
   const prList = client.list({
-    state: "open",
-    base: "main",
-    sort: "created",
-    direction: "asc",
-    per_page: 100,
-    page: 1,
+    state: "open", // "open" or "closed" or "all"
+    base: "main", // The branch that the pull request is merged into
+    sort: "created", // "created" or "updated" or "popularity" or "long-running"
+    direction: "asc", // "asc" or "desc"
+    per_page: 100, // The number of pull requests to return per page(1-100)
+    page: 1, // The page number to fetch
   });
   const pr = client.get(1);
   const reviews = client.listReviews(1);
@@ -88,7 +127,7 @@ You can create graphs and pivot tables from the data in this sheet.
 | updated_at           | The date and time when the pull request was last updated.   |
 | closed_at            | The date and time when the pull request was closed.         |
 | merged_at            | The date and time when the pull request was merged.         |
-| first_reviewed_at     | The date and time when the pull request was first reviewed. |
+| first_reviewed_at    | The date and time when the pull request was first reviewed. |
 | time_to_first_review | The time taken to first review the pull request.            |
 | time_to_close        | The time taken to close the pull request.                   |
 

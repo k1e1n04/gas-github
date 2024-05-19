@@ -5,7 +5,6 @@ import { PullRequestReviewSummary } from "@/models/pulls/PullRequestReviewSummar
  * This class is responsible for fetching the pull request review summary.
  */
 export class PullRequestReviewFetchService {
-
   /**
    * Constructor
    * @param client - Pull request client

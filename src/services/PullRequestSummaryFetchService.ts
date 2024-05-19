@@ -1,5 +1,5 @@
 import { Repo } from "@/types/params/GetDailyPullRequestsParam";
-import { PullRequestClient } from "@/clients/GitHubClient";
+import { PullRequestClient } from "@/clients/GithubClient";
 import { PullRequestSummary } from "@/models/pulls/PullRequestSummary";
 
 /**

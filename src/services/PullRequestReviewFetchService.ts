@@ -1,4 +1,4 @@
-import { PullRequestClient } from "@/clients/GitHubClient";
+import { PullRequestClient } from "@/clients/GithubClient";
 import { PullRequestReviewSummary } from "@/models/pulls/PullRequestReviewSummary";
 
 /**

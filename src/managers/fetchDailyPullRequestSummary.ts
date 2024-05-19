@@ -1,6 +1,6 @@
 import { DailyPullRequestSummaryWriteService } from "@/services/DailyPullRequestSummaryWriteService";
 import { GetDailyPullRequestsParam } from "@/types/params/GetDailyPullRequestsParam";
-import { PullRequestClient } from "@/clients/GitHubClient";
+import { PullRequestClient } from "@/clients/GithubClient";
 import { PullRequestSummaryHistoryRepository } from "@/repositories/PullRequestSummaryHistoryRepository";
 import { PullRequestSummaryRepository } from "@/repositories/PullRequestSummaryRepository";
 import { DailyPullRequestSummaryFetchService } from "@/services/DailyPullRequestSummaryFetchService";

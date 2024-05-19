@@ -19,10 +19,10 @@ export class GitHubApp {
     const privateKeyBody = privateKey.slice(beginIndex, endIndex);
 
     // Support for newlines being replaced by spaces
-    if (privateKeyBody.includes(' ') && !privateKeyBody.includes('\n')) {
+    if (privateKeyBody.includes(" ") && !privateKeyBody.includes("\n")) {
       this.privateKey = privateKey.replace(
-          privateKeyBody,
-          privateKeyBody.replace(/ /g, "\n")
+        privateKeyBody,
+        privateKeyBody.replace(/ /g, "\n"),
       );
     } else {
       this.privateKey = privateKey;

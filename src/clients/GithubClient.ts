@@ -11,7 +11,7 @@ import { PullRequestListParams } from "@/types/params/PullRequestListParams";
 /**
  * Base Class for the GitHub API clients
  */
-class GitHubClient {
+class GithubClient {
   /**
    * GitHub API token
    * @private
@@ -107,7 +107,7 @@ class GitHubClient {
  * @description
  * GitHub API client for pull requests
  */
-export class PullRequestClient extends GitHubClient {
+export class PullRequestClient extends GithubClient {
   /**
    * Resource name for the GitHub API
    * @private
@@ -234,7 +234,7 @@ export class PullRequestClient extends GitHubClient {
  * @description
  * GitHub API client for issues
  */
-export class IssueClient extends GitHubClient {
+export class IssueClient extends GithubClient {
   /**
    * Resource name for the GitHub API
    * @private
@@ -251,7 +251,7 @@ export class IssueClient extends GitHubClient {
  * @description
  * GitHub API client for commits
  */
-export class CommitClient extends GitHubClient {
+export class CommitClient extends GithubClient {
   /**
    * Resource name for the GitHub API
    * @private

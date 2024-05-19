@@ -1,4 +1,4 @@
-import { PullRequestClient } from "@/clients/GitHubClient";
+import { PullRequestClient } from "@/clients/GithubClient";
 import { PullRequestSummaryHistory } from "@/models/pulls/PullRequestSummaryHistory";
 import { PullRequestSummary } from "@/models/pulls/PullRequestSummary";
 import { Repo } from "@/types/params/GetDailyPullRequestsParam";
